@@ -67,6 +67,7 @@ public class UniStats {
 			try {
 			FileWriter writer = new FileWriter(target);
 			
+			boolean hasData = false;
 			boolean onUC = false;
 			boolean headerLock = false;
 			
@@ -75,7 +76,6 @@ public class UniStats {
 			    	
 			    	//Check for username
 			    	if(line.contains("[main/INFO]: Setting user: ")) {
-			    		System.out.println("sUser");
 			    		line = line.split(" ")[4];
 						//Write FileHeader
 			    		if(!headerLock) {
@@ -88,7 +88,6 @@ public class UniStats {
 						if(playerNames.size() == 0) playerNames.put(0, line);
 						if(!playerNames.get(playerNames.size() - 1).equalsIgnoreCase(line)) playerNames.put(playerNames.size(), line);
 			    	} else if(line.contains("[Client thread/INFO]: Setting user: ")) {
-			    		System.out.println("sUser");
 			    		line = line.split(" ")[5];
 						//Write FileHeader
 			    		if(!headerLock) {
@@ -101,7 +100,6 @@ public class UniStats {
 						if(playerNames.size() == 0) playerNames.put(0, line);
 						if(!playerNames.get(playerNames.size() - 1).equalsIgnoreCase(line)) playerNames.put(playerNames.size(), line);
 			    	} else if(line.contains("[Client thread/INFO] [net.minecraft.client.Minecraft]: Setting user: ")) {
-			    		System.out.println("sUser");
 			    		line = line.split(" ")[6];
 						//Write FileHeader
 			    		if(!headerLock) {
@@ -146,7 +144,10 @@ public class UniStats {
 			    	
 			    	if(!onUC) continue;
 			    	
-			    	if(line.contains("[CHAT]")) System.out.println("CHAT"); writer.write(format(line.split(" ")[0], Action.CHAT, line.substring(line.indexOf("[CHAT] ") + 1)) + " \n");
+			    	if(line.contains("[CHAT]")) {
+			    		hasData = true;
+			    		writer.write(format(line.split(" ")[0], Action.CHAT, line.substring(line.indexOf("[CHAT] ") + 7)) + " \n");
+			    	}
 			        
 			    	linesProcessed++;
 			    }
@@ -156,14 +157,19 @@ public class UniStats {
 		
 		writer.flush();
 		writer.close();
+		
+		//Kill log if empty
+		if(hasData == false) target.delete();
+		
 		reader.close();
-		progress.close();
-		
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 			}
+	    progress.close();
+	
+		
 	}
 	
 	public static String format(String time, Action action, String text) {
@@ -184,7 +190,7 @@ public class UniStats {
 		String h8 = "|ID: " + logID + "\n";
 		String h9 = "|Origin: " + origin + "\n";
 	   String h10 = "|Date: " + date + "\n";
-	   String h11 = "|---------------------------------------------------------------| \n \n";
+	   String h11 = "|---------------------------------------------------------------| \n";
 		
 		header.add(h1);
 		header.add(h2);
