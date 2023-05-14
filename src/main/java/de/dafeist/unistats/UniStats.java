@@ -60,16 +60,45 @@ public class UniStats {
 		
 		int logsProcessed = 0;
 		int linesProcessed = 0;
+		int appends = 1;
+		
+		File prev = null;
+		File target = null;
 		
 		for(File file : decompFolder.listFiles()) {
-			File target = new File(logFolder + "\\" + file.getName());
+			boolean headerLock = false;
+			FileWriter writer = null;
+			boolean hasData = false;
+			boolean append = false;
+			
+			if(prev != null && StringUtils.parseNumDateFromLog(file.getName()).equals(StringUtils.parseNumDateFromLog(prev.getName()).replace(".txt", ""))) {
+			target = prev;
+			headerLock = true;
+			append = true;
 			
 			try {
-			FileWriter writer = new FileWriter(target);
+				writer = new FileWriter(target, true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+			} else {
 			
-			boolean hasData = false;
+			appends = 1;
+			target = new File(logFolder + "\\" + StringUtils.rmLastChar(file.getName().replace(file.getName().split("-")[3], "")) + ".txt");
+			
+			try {
+				writer = new FileWriter(target);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			}
+			
+			try {
+			
 			boolean onUC = false;
-			boolean headerLock = false;
+			boolean prevWasUC = false;
 			
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			    for(String line; (line = reader.readLine()) != null; ) {
@@ -120,26 +149,34 @@ public class UniStats {
 			    				onUC = true;
 			    				if(domain.endsWith(".")) domain =  domain.substring(0, domain.length() - 1);
 			    				writer.write(format(line.split(" ")[0], Action.CONNECT, "Connected to Server ") + domain + " \n");
+			    				prevWasUC = true;
 			    				break;
 			    			} else {
 			    				onUC = false;
 			    			}
 			    			
 			    		}
-			    		if(!onUC) writer.write(format(line.split(" ")[0], Action.DISCONNECT, "Disconnected from Server" + " \n" ));
+			    		if(!onUC && prevWasUC == true) {
+			    			writer.write(format(line.split(" ")[0], Action.DISCONNECT, "Disconnected from Server" + " \n" ));
+			    			prevWasUC = false;
+			    		}
 			    	} else if(line.contains("[main/INFO]: Connecting to ")) {
 			    		for(String domain : targetServers) {
 			    			if(line.split(" ")[4].replace(",", "").equalsIgnoreCase(domain)) {
 			    				onUC = true;
 			    				if(domain.endsWith(".")) domain =  domain.substring(0, domain.length() - 1);
 			    				writer.write(format(line.split(" ")[0], Action.CONNECT, "Connected to Server ") + domain + " \n");
+			    				prevWasUC = true;
 			    				break;
 			    			} else {
 			    				onUC = false;
 			    			}
 			    			
 			    		}
-			    		if(!onUC) writer.write(format(line.split(" ")[0], Action.DISCONNECT, "Disconnected from Server" + " \n" ));
+			    		if(!onUC && prevWasUC == true) {
+			    			writer.write(format(line.split(" ")[0], Action.DISCONNECT, "Disconnected from Server" + " \n" ));
+			    			prevWasUC = false;
+			    		}
 			    	}
 			    	
 			    	if(!onUC) continue;
@@ -155,11 +192,34 @@ public class UniStats {
 		logsProcessed++;
 		progress.step();
 		
-		writer.flush();
-		writer.close();
+		if(append && hasData) {
+			try {
+			appends++;
+				
+			writer.flush();
+			writer.close();
+				
+			FileWriter appendDct = new FileWriter(target, true);
+			
+			appendDct.write("\n[UniStats] Detected new Instance-Start, total: " + appends + "\n");
+				
+			appendDct.flush();
+			appendDct.close();
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			writer.flush();
+			writer.close();
+		}
 		
 		//Kill log if empty
-		if(hasData == false) target.delete();
+		if(!append && !hasData) {
+			target.delete();
+		}
+		
+		prev = target;
 		
 		reader.close();
 

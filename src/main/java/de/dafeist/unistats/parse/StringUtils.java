@@ -11,6 +11,10 @@ public class StringUtils {
 		return day + "-" + month + "-" + year;
 	}
 	
+	public static String rmLastChar(String string) {
+		return string.substring(0, string.length() - 1);
+	}
+	
 	public static String formatDate(String string) {
 		String split[] = string.split("-");
 		String nDay = split[0];
