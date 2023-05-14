@@ -216,19 +216,21 @@ public class UniStats {
 			writer.close();
 		}
 		
+		reader.close();
+		
 		//Kill log if empty
-		if(!append && !hasData) {
+		if(!append && !hasData || target.length() < 1) {
 			target.delete();
 		}
 		
 		prev = target;
 		
-		reader.close();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+			
 			}
+		
 	    progress.close();
 	
 		
