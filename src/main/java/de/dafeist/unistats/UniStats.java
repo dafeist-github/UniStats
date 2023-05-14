@@ -67,14 +67,19 @@ public class UniStats {
 		
 		for(File file : decompFolder.listFiles()) {
 			boolean headerLock = false;
+			
 			FileWriter writer = null;
+			
 			boolean hasData = false;
 			boolean append = false;
+			boolean onUC = false;
+			boolean prevWasUC = false;
 			
 			if(prev != null && StringUtils.parseNumDateFromLog(file.getName()).equals(StringUtils.parseNumDateFromLog(prev.getName()).replace(".txt", ""))) {
 			target = prev;
 			headerLock = true;
 			append = true;
+			onUC = false;
 			
 			try {
 				writer = new FileWriter(target, true);
@@ -96,9 +101,6 @@ public class UniStats {
 			}
 			
 			try {
-			
-			boolean onUC = false;
-			boolean prevWasUC = false;
 			
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			    for(String line; (line = reader.readLine()) != null; ) {
