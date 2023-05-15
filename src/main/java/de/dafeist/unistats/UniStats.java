@@ -50,7 +50,7 @@ public class UniStats {
 	public static void processLogs() {
 		System.out.println("Vorbereitung läuft...");
 		logAmt = decompFolder.listFiles().length;
-		System.out.println("Dieser Prozess kann je nach CPU und Datenmenge lange dauern");
+		System.out.println("Dieser Prozess kann viel CPU-Leistung in Anspruch nehmen");
 		
 		ProgressBar progress = new ProgressBarBuilder().setTaskName("Bearbeite Datens" + "ä" + "tze...")
 				.setInitialMax(logAmt)
@@ -209,7 +209,7 @@ public class UniStats {
 				
 			FileWriter appendDct = new FileWriter(target, true);
 			
-			appendDct.write("\n[UniStats] Detected new Instance-Start, total: " + appends + "\n");
+			appendDct.write("\n[UniStats] Detected new Instance-Start, total: " + appends + " \n");
 				
 			appendDct.flush();
 			appendDct.close();
@@ -238,7 +238,9 @@ public class UniStats {
 			}
 		
 	    progress.close();
-	
+	    
+	    System.out.println("...Erfolg! " + logsProcessed + " Logs gefiltert, " + linesProcessed + " Zeilen verarbeitet");
+	    LogProcessor.process();
 		
 	}
 	
