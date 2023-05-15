@@ -77,7 +77,12 @@ public class UniStats {
 			
 			if(prev != null && StringUtils.parseNumDateFromLog(file.getName()).equals(StringUtils.parseNumDateFromLog(prev.getName()).replace(".txt", ""))) {
 			target = prev;
-			headerLock = true;
+			if(target.length() > 1) {
+				headerLock = true;
+			} else {
+				headerLock = false;
+			}
+			
 			append = true;
 			onUC = false;
 			
@@ -89,6 +94,7 @@ public class UniStats {
 				
 			} else {
 			
+			headerLock = false;
 			appends = 1;
 			target = new File(logFolder + "\\" + StringUtils.rmLastChar(file.getName().replace(file.getName().split("-")[3], "")) + ".txt");
 			
@@ -219,7 +225,7 @@ public class UniStats {
 		reader.close();
 		
 		//Kill log if empty
-		if(!append && !hasData || target.length() < 1) {
+		if(!append && !hasData || target.length() < 460) {
 			target.delete();
 		}
 		
