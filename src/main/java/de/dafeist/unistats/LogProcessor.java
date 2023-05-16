@@ -1,6 +1,8 @@
 package de.dafeist.unistats;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
@@ -22,6 +24,22 @@ public class LogProcessor {
 				.build();
 		
 		File targetFolder = UniStats.targetFolder;
+		
+		for(File file : targetFolder.listFiles()) {
+			try {
+				FileReader reader = new FileReader(file);
+				
+				
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
+	public static void analyzeLine(String line) {
 		
 	}
 	
