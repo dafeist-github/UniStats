@@ -11,6 +11,7 @@ public class Statistic {
 	
 	public ArrayList<String> triggers = new ArrayList<String>();
 	
+	//Statistics are bound to the instance
 	public Statistic(String name, String description) {
 		this.name = name;
 		this.description = description;

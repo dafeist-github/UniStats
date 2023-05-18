@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import me.tongfei.progressbar.ProgressBar;
@@ -15,12 +16,14 @@ public class LogProcessor {
 	
 	public static void process() {
 		
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<Line> lines = new ArrayList<Line>();
 		
 		System.out.println("Der Folgende Prozess kann eine lange Zeit dauern");
 		System.out.println("Es wird viel CPU-Leistung und möglicherweise Arbeitsspeicher in Anspruch genommen");
 		
 		int logAmt = UniStats.logFolder.listFiles().length;
+		int logsProcessed = 0;
+		int linesProcessed = 0;
 		
 		ProgressBar progress = new ProgressBarBuilder().setTaskName("Verarbeite Datens" + "ä" + "tze...")
 				.setInitialMax(logAmt)
@@ -36,21 +39,33 @@ public class LogProcessor {
 				FileWriter writer = new FileWriter(targetFolder.getPath() + "\\data\\" + file.getName());
 				
 				//To process all the data, we gotta insert all data into an Array
-				//This is gonna take a stupid amount of power
 				for(String line; (line = reader.readLine()) != null; ) {
-					
+					lines.add(Line.fromString(line));
 				}
 				
+				//Now we can finally process them :)
+				for(Line line : lines) {
+					analyzeLine(line);
+					linesProcessed++;
+				}
 				
+				reader.close();
+				writer.flush();
+				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
+			logsProcessed++;
+			progress.step();
+			
 		}
+		
+		progress.close();
 		
 	}
 	
-	public static void analyzeLine(String line, FileWriter writer) {
+	public static void analyzeLine(Line line) {
 		
 	}
 	
