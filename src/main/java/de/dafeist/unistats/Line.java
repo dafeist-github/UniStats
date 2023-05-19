@@ -27,8 +27,11 @@ public class Line {
 	
 	@Override
 	public String toString() {
-		if(action == null) return "[" + time + "] [" + action.toString() + "] " + content;
-		return "[" + time + "] [CHAT] " + content;
+		if(action == Action.CHAT) action = null;
+		if(action == Action.CONNECT) return "[" + time + "] [CONNECT] " + content;
+		if(action == Action.DISCONNECT) return "[" + time + "] [DISCONNECT] " + content;
+		if(action == null) return "[" + time + "] [CHAT] " + content;
+		return "[" + time + "] [CHAT] " + content + " ".repeat(500) + " | " + action.toString();
 	}
 	
 	public String getTime() {
