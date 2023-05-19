@@ -44,7 +44,27 @@ public class UniStats {
 	public enum Action {
 		CONNECT,
 		DISCONNECT,
-		CHAT
+		CHAT,
+		OPENBAG,
+		OPENTRASH,
+		AFK,
+		SENDAD,
+		SENDSMS,
+		RECEIVESMS,
+		TBONUS,
+		NAVI,
+		BUYTEQUILA,
+		BUYWINE,
+		BUYBEER,
+		BUYVODKA,
+		ENABLETELEPHONE,
+		SHOWFINANCES,
+		SHOWPERSO,
+		SHOPBUY,
+		SCREENSHOT,
+		RECEIVECALL,
+		DENYCALL,
+		SEENREVIVE
 	}
 	
 	public static void processLogs() {
