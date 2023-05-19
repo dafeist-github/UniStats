@@ -2,6 +2,8 @@ package de.dafeist.unistats.stat;
 
 import java.util.ArrayList;
 
+import de.dafeist.unistats.UniStats.Action;
+
 public class Statistic {
 	
 	public String name;
@@ -11,10 +13,20 @@ public class Statistic {
 	
 	public ArrayList<String> triggers = new ArrayList<String>();
 	
+	public static ArrayList<Statistic> statistics = new ArrayList<Statistic>();
+	
+	public Action actionTrigger = null;
+	
 	//Statistics are bound to the instance
 	public Statistic(String name, String description) {
 		this.name = name;
 		this.description = description;
+	}
+	
+	public Statistic(String name, String description, Action actionTrigger) {
+		this.name = name;
+		this.description = description;
+		this.actionTrigger = actionTrigger;
 	}
 	
 	public void addTrigger(String trigger) {

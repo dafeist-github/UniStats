@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import de.dafeist.unistats.stat.Statistic;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
@@ -24,6 +25,8 @@ public class LogProcessor {
 		int logAmt = UniStats.logFolder.listFiles().length;
 		int logsProcessed = 0;
 		int linesProcessed = 0;
+		
+		initStats();
 		
 		ProgressBar progress = new ProgressBarBuilder().setTaskName("Verarbeite Datens" + "ä" + "tze...")
 				.setInitialMax(logAmt)
@@ -65,7 +68,24 @@ public class LogProcessor {
 		
 	}
 	
+	public static void initStats() {
+		
+	}
+	
 	public static void analyzeLine(Line line) {
+		for(Statistic statistic : Statistic.statistics) {
+			for(String string : statistic.triggers) {
+				if(line.getContent().contains(string)) {
+					statistic.count();
+					if(statistic.actionTrigger != null) line.setAction(statistic.actionTrigger);
+				}
+				
+				
+				
+			}
+			
+		}
+		
 		
 	}
 	

@@ -18,13 +18,17 @@ public class Line {
 	public static Line fromString(String line) {
 		String time = line.split(" ")[0].replace("[", "").replace("]", "");
 		Action action = Action.valueOf(time.split(" ")[1].replace("[", "").replace("]", ""));
+		
+		if(action == null) action = Action.CHAT;
+		
 		String content = line.substring(line.indexOf(time.split(" ")[1].replace("[", "").replace("]", "")) + action.toString().length() + 2);
 		return new Line(time, action, content);
 	}
 	
 	@Override
 	public String toString() {
-		return "[" + time + "] [" + action.toString() + "] " + content;
+		if(action == null) return "[" + time + "] [" + action.toString() + "] " + content;
+		return "[" + time + "] [CHAT] " + content;
 	}
 	
 	public String getTime() {
