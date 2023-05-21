@@ -19,6 +19,8 @@ public class TimebasedStatistic {
 	public ArrayList<String> startTriggers = new ArrayList<String>();
 	public ArrayList<String> endTriggers = new ArrayList<String>();
 	
+	public ArrayList<String> startTriggerBlacklist = new ArrayList<String>();
+	
 	public ArrayList<PredefinedTrigger> predefinedTriggers = new ArrayList<PredefinedTrigger>();
 	
 	public static ArrayList<TimebasedStatistic> statistics = new ArrayList<TimebasedStatistic>();
@@ -32,6 +34,10 @@ public class TimebasedStatistic {
 		this.description = description;
 		this.startActionTrigger = startActionTrigger;
 		this.endActionTrigger = endActionTrigger;
+	}
+	
+	public void addStartTriggerBlacklist(String key) {
+		if(!startTriggerBlacklist.contains(key)) startTriggerBlacklist.add(key);
 	}
 	
 	public void addStartTrigger(String trigger) {

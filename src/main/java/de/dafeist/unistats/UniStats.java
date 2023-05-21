@@ -66,7 +66,14 @@ public class UniStats {
 		DENYCALL,
 		SEENREVIVE,
 		JAILED,
-		UNJAILED
+		UNJAILED,
+		PAYMONEY,
+		RECEIVEMONEY,
+		TRANSFERBANKMONEY,
+		RECEIVEBANKMONEY,
+		LOADGUN,
+		STARTCALL,
+		ENDCALL
 	}
 	
 	public static void processLogs() {

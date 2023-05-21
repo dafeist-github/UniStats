@@ -156,28 +156,60 @@ public class LogProcessor {
 			revivesseen.addTrigger(" wiederbelebt.");
 		Statistic.statistics.add(revivesseen);
 		
+		Statistic pays = new Statistic("Bargeld gezahlt (Spieler)", "Du hast x mal Bargeld an andere Spieler gezahlt", Action.PAYMONEY);
+			pays.addPredefinedTrigger("Du hast ", 1, "$ gegeben!");
+		Statistic.statistics.add(pays);
+		
+		Statistic receivemoney = new Statistic("Bargeld bekommen (Spieler)", "Du hast x mal Bargeld von anderen Spielern bekommen", Action.RECEIVEMONEY);
+			receivemoney.addPredefinedTrigger(" hat dir ", 1, "$ gegeben!");
+		Statistic.statistics.add(receivemoney);
+		
+		Statistic transferbankmoney = new Statistic("Geld überwiesen", "Du hast x mal Geld an einen anderen Spieler überwiesen", Action.TRANSFERBANKMONEY);
+			transferbankmoney.addPredefinedTrigger(null, 0, null);
+			//Ich brauch die Message noch /:
+		Statistic.statistics.add(transferbankmoney);
+		
+		Statistic receivebankmoney = new Statistic("Geld durch Überweisungen bekommen", "Du hast x mal Geld durch Überweisungen bekommen", Action.RECEIVEBANKMONEY);
+			receivebankmoney.addPredefinedTrigger(" hat dir ", 1, "$ überwiesen!");
+		Statistic.statistics.add(receivebankmoney);
+			
+		Statistic gunloads = new Statistic("Waffe geladen", "Du hast x mal deine Waffe geladen", Action.LOADGUN);
+			gunloads.addPredefinedTrigger(" mit ", 1, " Kugeln beladen.");
+		Statistic.statistics.add(gunloads);
+		
 		//Timebased
 		TimebasedStatistic jailtime = new TimebasedStatistic("Im Gefängnis gelandet", "Du warst x mal im Gefängnis", Action.JAILED, Action.UNJAILED);
 			jailtime.addPredefinedTrigger("Du bist nun für ", 60, "Minuten im Gefängnis.");
 		TimebasedStatistic.statistics.add(jailtime);
 		
+		TimebasedStatistic calltime = new TimebasedStatistic("Anrufszeit", "Du warst x mal in einem Anruf", Action.STARTCALL, Action.ENDCALL);
+			calltime.addStartTrigger(" hat den Anruf angenommen.");
+			calltime.addStartTrigger("Du hast den Anruf von ");
+			calltime.addStartTriggerBlacklist("abgelehnt");
+			calltime.addEndTrigger("Der Gesprächspartner hat den Anruf beendet.");
+			calltime.addEndTrigger("Du hast den Anruf weggedrückt.");
+		TimebasedStatistic.statistics.add(calltime);
+		
 		//TODO: Wie viele Anrufe angenommen?
 		//TODO: Wie viel Alkohol insgesamt gekauft?
-		//TODO: Pays
+		
 		//TODO: Überweisungen
-		//TODO: Anrufzeit
-		//TODO: Kugeln geholt
 		//TODO: Abhebungen
 		//TODO: Einzahlungen
 		//TODO: Paydays
 		//TODO: Alles mit /me's und Chats
-		//TODO: Variable Stats
 		//TODO: Kills
+			
+		//WICHTIG: BEI SERVER-LEAVE UNBEDINGT TIME-TRIGGERS RESETTEN!!!
 		
-		//Vielleicht macht ä ü ö Probleme?
+		//Vielleicht machen Umlaute Probleme?
 	}
 	
 	public static void analyzeLine(Line line) {
+		
+		//Failsafe
+		if(line.getContent().contains("[UniStats] Detected new Instance-Start,")) for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
+		
 		//Normal Stats
 		for(Statistic statistic : Statistic.statistics) {
 			for(String string : statistic.triggers) {
@@ -200,6 +232,11 @@ public class LogProcessor {
 		for(TimebasedStatistic statistic : TimebasedStatistic.statistics) {
 			for(String string : statistic.startTriggers) {
 				if(line.getContent().contains(string)) {
+					boolean l = false;
+					for(String blacklist : statistic.startTriggerBlacklist) {
+						if(string.contains(blacklist)) l = true;
+					}
+					if(l) continue;
 					statistic.s = line.getTime();
 					line.setAction(statistic.startActionTrigger);
 				}
