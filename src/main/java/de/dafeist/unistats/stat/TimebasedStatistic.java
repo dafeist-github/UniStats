@@ -9,6 +9,8 @@ public class TimebasedStatistic {
 	//Time in Seconds
 	public int time = 0;
 	
+	public String s = null;
+	
 	public int count = 0;
 
 	public String name;

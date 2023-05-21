@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 import de.dafeist.unistats.UniStats.Action;
+import de.dafeist.unistats.stat.PredefinedTrigger;
 import de.dafeist.unistats.stat.Statistic;
 import de.dafeist.unistats.stat.TimebasedStatistic;
 import me.tongfei.progressbar.ProgressBar;
@@ -61,6 +62,7 @@ public class LogProcessor {
 				e.printStackTrace();
 			}
 			
+			for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
 			logsProcessed++;
 			progress.step();
 			
@@ -161,7 +163,6 @@ public class LogProcessor {
 		
 		//TODO: Wie viele Anrufe angenommen?
 		//TODO: Wie viel Alkohol insgesamt gekauft?
-		//TODO: im Gefängnis gelandet
 		//TODO: Pays
 		//TODO: Überweisungen
 		//TODO: Anrufzeit
@@ -192,7 +193,31 @@ public class LogProcessor {
 		}
 		
 		//Timebased Stats
-		
+		for(TimebasedStatistic statistic : TimebasedStatistic.statistics) {
+			for(String string : statistic.startTriggers) {
+				if(line.getContent().contains(string)) {
+					statistic.s = line.getTime();
+					line.setAction(statistic.startActionTrigger);
+				}
+			}
+			
+			for(String string : statistic.endTriggers) {
+				if(line.getContent().contains(string)) {
+					if(statistic.s == null) continue;
+					statistic.add(Line.timeDiff(statistic.s, line.getTime()));
+					line.setAction(statistic.endActionTrigger);
+					statistic.s = null;
+				}
+			}
+			
+			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
+				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
+					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + 1, line.getContent().indexOf(trigger.after));
+					int amt = Integer.parseInt(between) * trigger.multiplier;
+					statistic.add(amt);
+				}
+			}
+		}
 		
 	}
 	

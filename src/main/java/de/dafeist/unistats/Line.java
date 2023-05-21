@@ -34,6 +34,15 @@ public class Line {
 		return "[" + time + "] [CHAT] " + content + " ".repeat(500) + " | " + action.toString();
 	}
 	
+	public static int timeInSeconds(String time) {
+		String[] num = time.split(":");
+		return Integer.parseInt(num[0])*3600+Integer.parseInt(num[1])*60+Integer.parseInt(num[2]);
+	}
+	
+	public static int timeDiff(String start, String end) {
+		return timeInSeconds(end)-timeInSeconds(start);
+	}
+	
 	public String getTime() {
 		return time;
 	}
