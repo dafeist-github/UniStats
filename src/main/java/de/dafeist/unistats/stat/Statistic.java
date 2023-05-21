@@ -10,8 +10,11 @@ public class Statistic {
 	public String description;
 	
 	public int count = 0;
+	public int refvalue = 0;
 	
 	public ArrayList<String> triggers = new ArrayList<String>();
+	
+	public ArrayList<PredefinedTrigger> predefinedTriggers = new ArrayList<PredefinedTrigger>();
 	
 	public static ArrayList<Statistic> statistics = new ArrayList<Statistic>();
 	
@@ -29,12 +32,25 @@ public class Statistic {
 		this.actionTrigger = actionTrigger;
 	}
 	
+	public void addPredefinedTrigger(String before, int multiplier, String after) {
+		PredefinedTrigger pt = new PredefinedTrigger(before, multiplier, after);
+		if(!predefinedTriggers.contains(pt)) predefinedTriggers.add(pt);
+	}
+	
 	public void addTrigger(String trigger) {
 		if(!triggers.contains(trigger)) triggers.add(trigger);
 	}
 	
 	public void count() {
 		count++;
+	}
+	
+	public void addValue(int amount) {
+		refvalue += amount;
+	}
+	
+	public void removeValue(int amount) {
+		refvalue -= amount;
 	}
 	
 	public void add(int amount) {

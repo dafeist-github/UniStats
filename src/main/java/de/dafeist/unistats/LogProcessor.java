@@ -185,9 +185,13 @@ public class LogProcessor {
 					statistic.count();
 					if(statistic.actionTrigger != null) line.setAction(statistic.actionTrigger);
 				}
-				
-				
-				
+			}
+			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
+				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
+					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + 1, line.getContent().indexOf(trigger.after));
+					int amt = Integer.parseInt(between) * trigger.multiplier;
+					statistic.addValue(amt);
+				}
 			}
 			
 		}
