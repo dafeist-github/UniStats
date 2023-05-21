@@ -17,6 +17,8 @@ public class TimebasedStatistic {
 	public ArrayList<String> startTriggers = new ArrayList<String>();
 	public ArrayList<String> endTriggers = new ArrayList<String>();
 	
+	public ArrayList<PredefinedTrigger> predefinedTriggers = new ArrayList<PredefinedTrigger>();
+	
 	public static ArrayList<TimebasedStatistic> statistics = new ArrayList<TimebasedStatistic>();
 	
 	public Action startActionTrigger = null;
@@ -36,6 +38,11 @@ public class TimebasedStatistic {
 	
 	public void addEndTrigger(String trigger) {
 		if(!endTriggers.contains(trigger)) endTriggers.add(trigger);
+	}
+	
+	public void addPredefinedTrigger(String before, int multiplier, String after) {
+		PredefinedTrigger pt = new PredefinedTrigger(before, multiplier, after);
+		if(!predefinedTriggers.contains(pt)) predefinedTriggers.add(pt);
 	}
 	
 	public int getTime() {

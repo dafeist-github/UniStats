@@ -156,8 +156,7 @@ public class LogProcessor {
 		
 		//Timebased
 		TimebasedStatistic jailtime = new TimebasedStatistic("Im Gefängnis gelandet", "Du warst x mal im Gefängnis", Action.JAILED, Action.UNJAILED);
-			jailtime.addStartTrigger(null);
-			jailtime.addEndTrigger(null);
+			jailtime.addPredefinedTrigger("Du bist nun für ", 60, "Minuten im Gefängnis.");
 		TimebasedStatistic.statistics.add(jailtime);
 		
 		//TODO: Wie viele Anrufe angenommen?
