@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import de.dafeist.unistats.UniStats.Action;
 import de.dafeist.unistats.stat.Statistic;
+import de.dafeist.unistats.stat.TimebasedStatistic;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
@@ -121,7 +122,7 @@ public class LogProcessor {
 			buyvodka.addTrigger("Barkeeper: Hier haben Sie ihren Vodka.");
 		Statistic.statistics.add(buyvodka);
 		
-		Statistic enabletelephone = new Statistic("Telefone eingeschaltet", "Du hast x mal dein Telefon eingeschaltet", Action.ENABLETELEPHONE);
+		Statistic enabletelephone = new Statistic("Telefon eingeschaltet", "Du hast x mal dein Telefon eingeschaltet", Action.ENABLETELEPHONE);
 			enabletelephone.addTrigger("[SMS] Eine SMS von Nummer ");
 		Statistic.statistics.add(enabletelephone);
 		
@@ -153,6 +154,12 @@ public class LogProcessor {
 			revivesseen.addTrigger(" wiederbelebt.");
 		Statistic.statistics.add(revivesseen);
 		
+		//Timebased
+		TimebasedStatistic jailtime = new TimebasedStatistic("Im Gefängnis gelandet", "Du warst x mal im Gefängnis", Action.JAILED, Action.UNJAILED);
+			jailtime.addStartTrigger(null);
+			jailtime.addEndTrigger(null);
+		TimebasedStatistic.statistics.add(jailtime);
+		
 		//TODO: Wie viele Anrufe angenommen?
 		//TODO: Wie viel Alkohol insgesamt gekauft?
 		//TODO: im Gefängnis gelandet
@@ -166,10 +173,12 @@ public class LogProcessor {
 		//TODO: Alles mit /me's und Chats
 		//TODO: Variable Stats
 		//TODO: Kills
+		
 		//Vielleicht macht ä ü ö Probleme?
 	}
 	
 	public static void analyzeLine(Line line) {
+		//Normal Stats
 		for(Statistic statistic : Statistic.statistics) {
 			for(String string : statistic.triggers) {
 				if(line.getContent().contains(string)) {
@@ -182,6 +191,8 @@ public class LogProcessor {
 			}
 			
 		}
+		
+		//Timebased Stats
 		
 		
 	}

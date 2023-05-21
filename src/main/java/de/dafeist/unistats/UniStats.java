@@ -64,7 +64,9 @@ public class UniStats {
 		SCREENSHOT,
 		RECEIVECALL,
 		DENYCALL,
-		SEENREVIVE
+		SEENREVIVE,
+		JAILED,
+		UNJAILED
 	}
 	
 	public static void processLogs() {
