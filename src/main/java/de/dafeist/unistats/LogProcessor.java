@@ -9,9 +9,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 import de.dafeist.unistats.UniStats.Action;
-import de.dafeist.unistats.stat.PredefinedTrigger;
 import de.dafeist.unistats.stat.Statistic;
 import de.dafeist.unistats.stat.TimebasedStatistic;
+import de.dafeist.unistats.stat.trigger.PredefinedTrigger;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;

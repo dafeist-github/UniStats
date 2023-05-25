@@ -1,4 +1,4 @@
-package de.dafeist.unistats.stat;
+package de.dafeist.unistats.stat.trigger;
 
 public class PredefinedTrigger {
 	
