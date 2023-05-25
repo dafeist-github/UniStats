@@ -124,8 +124,9 @@ public class LogProcessor {
 			buyvodka.addTrigger("Barkeeper: Hier haben Sie ihren Vodka.");
 		Statistic.statistics.add(buyvodka);
 		
+		//MSG maybe wrong
 		Statistic enabletelephone = new Statistic("Telefon eingeschaltet", "Du hast x mal dein Telefon eingeschaltet", Action.ENABLETELEPHONE);
-			enabletelephone.addTrigger("[SMS] Eine SMS von Nummer ");
+			enabletelephone.addTrigger("Du hast dein Telefon eingeschalt");
 		Statistic.statistics.add(enabletelephone);
 		
 		Statistic financesshown = new Statistic("Finanzen gezeigt", "Du hast x mal deine Finanzen gezeigt", Action.SHOWFINANCES);
@@ -177,6 +178,26 @@ public class LogProcessor {
 			gunloads.addPredefinedTrigger(" mit ", 1, " Kugeln beladen.");
 		Statistic.statistics.add(gunloads);
 		
+		Statistic withdraws = new Statistic("Bankabhebungen", "Du hast x mal Geld von der Bank abgehoben", Action.WITHDRAW);
+			withdraws.addTrigger("Auszahlung: -");
+		Statistic.statistics.add(withdraws);
+		
+		Statistic deposits = new Statistic("Bankeinzahlungen", "Du hast x mal Geld in die Bank eingezahlt", Action.DEPOSIT);
+			deposits.addTrigger("Eingezahlt: +");
+		Statistic.statistics.add(deposits);
+		
+		Statistic paydays = new Statistic("PayDays", "Du hast x PayDays bekommen", Action.PAYDAY);
+			paydays.addTrigger("======== PayDay ========");
+		Statistic.statistics.add(paydays);
+		
+		//Kills are kind of unreliable, because they only get shown as Karma-Points in Logs
+		Statistic kills = new Statistic("Kills", "Du hast x Spieler gekillt", Action.KILL);
+			kills.addTrigger("[Karma] -2 Karma.");
+			kills.addTrigger("[Karma] -3 Karma.");
+			kills.addTrigger("[Karma] -4 Karma.");
+			kills.addTrigger("[Karma] -5 Karma.");
+		Statistic.statistics.add(kills);
+		
 		//Timebased
 		TimebasedStatistic jailtime = new TimebasedStatistic("Im Gefängnis gelandet", "Du warst x mal im Gefängnis", Action.JAILED, Action.UNJAILED);
 			jailtime.addPredefinedTrigger("Du bist nun für ", 60, "Minuten im Gefängnis.");
@@ -194,11 +215,7 @@ public class LogProcessor {
 		//TODO: Wie viel Alkohol insgesamt gekauft?
 		
 		//TODO: Überweisungen
-		//TODO: Abhebungen
-		//TODO: Einzahlungen
-		//TODO: Paydays
 		//TODO: Alles mit /me's und Chats
-		//TODO: Kills
 			
 		//WICHTIG: BEI SERVER-LEAVE UNBEDINGT TIME-TRIGGERS RESETTEN!!!
 		

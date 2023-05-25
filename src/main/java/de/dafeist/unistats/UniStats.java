@@ -73,7 +73,11 @@ public class UniStats {
 		RECEIVEBANKMONEY,
 		LOADGUN,
 		STARTCALL,
-		ENDCALL
+		ENDCALL,
+		WITHDRAW,
+		DEPOSIT,
+		PAYDAY,
+		KILL
 	}
 	
 	public static void processLogs() {
