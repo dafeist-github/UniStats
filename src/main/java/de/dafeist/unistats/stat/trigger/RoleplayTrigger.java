@@ -8,8 +8,8 @@ public class RoleplayTrigger {
 	}
 	
 	public METype type = null;
-	String[] include;
-	String[] exclude;
+	public String[] include;
+	public String[] exclude;
 	
 	public RoleplayTrigger(METype type, String[] include, String[] exclude) {
 		this.type = type;

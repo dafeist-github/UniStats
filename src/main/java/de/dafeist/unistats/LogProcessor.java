@@ -9,9 +9,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 import de.dafeist.unistats.UniStats.Action;
+import de.dafeist.unistats.stat.RoleplayStatistic;
 import de.dafeist.unistats.stat.Statistic;
 import de.dafeist.unistats.stat.TimebasedStatistic;
 import de.dafeist.unistats.stat.trigger.PredefinedTrigger;
+import de.dafeist.unistats.stat.trigger.RoleplayTrigger;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
@@ -276,6 +278,28 @@ public class LogProcessor {
 				}
 			}
 		}
+		
+		//RolePlay Stats
+		for(RoleplayStatistic statistic : RoleplayStatistic.statistics) {
+			for(RoleplayTrigger trigger : statistic.triggers) {
+				String content = line.getContent();
+				boolean ret = false;
+				
+				for(String s : trigger.include) {
+					if(!content.contains(s)) ret = true;
+				}
+				
+				for(String s : trigger.exclude) {
+					if(content.contains(s)) ret = true;
+				}
+				
+				if(!ret && content.startsWith("* ")) {
+					statistic.count();
+				}
+				
+			}
+		}
+		
 		
 	}
 	
