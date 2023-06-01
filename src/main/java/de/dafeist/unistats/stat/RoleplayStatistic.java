@@ -17,6 +17,7 @@ public class RoleplayStatistic {
 	public int count = 0;
 	
 	public static ArrayList<RoleplayStatistic> statistics = new ArrayList<RoleplayStatistic>();
+	public static ArrayList<RoleplayStatistic> hardcoded = new ArrayList<RoleplayStatistic>();
 	
 	public ArrayList<RoleplayTrigger> triggers = new ArrayList<RoleplayTrigger>();
 	

@@ -215,7 +215,12 @@ public class LogProcessor {
 		TimebasedStatistic.statistics.add(calltime);
 		
 		//Roleplay Actions
-		//RoleplayStatistic 
+		RoleplayStatistic totalSelf = new RoleplayStatistic("Gesamt /me's ausgeführt", "Du hast x mal /me ausgeführt");
+			RoleplayStatistic.hardcoded.add(totalSelf);
+		RoleplayStatistic totalOther = new RoleplayStatistic("Gesamt /me's an dir ausgeführt", "Andere Spieler haben x mal eine /me Aktion an dir ausgeführt");
+			RoleplayStatistic.hardcoded.add(totalOther);
+		RoleplayStatistic total = new RoleplayStatistic("Gesamt /me's gesehen", "Du hast insgesamt x mal ein /me gesehen, egal von wem");
+			RoleplayStatistic.hardcoded.add(total);
 		
 		//TODO: Wie viel Alkohol insgesamt gekauft?
 		
@@ -298,11 +303,16 @@ public class LogProcessor {
 				
 				if(!ret) {
 					for(String name : UniStats.playerNames.values()) {
+						
+						if(content.startsWith("* ")) RoleplayStatistic.hardcoded.get(2).count();
+						
 						if(content.startsWith("* " + name) && trigger.type == METype.SELF) {
 							//SELF
+							RoleplayStatistic.hardcoded.get(0).count();
 							statistic.count();
 						} else if(content.startsWith("* ") && content.contains(name) && trigger.type == METype.OTHER) {
 							//OTHER
+							RoleplayStatistic.hardcoded.get(1).count();
 							statistic.count();
 						} else if(content.startsWith("* ") && trigger.type == METype.ANY) {
 							//ANY
