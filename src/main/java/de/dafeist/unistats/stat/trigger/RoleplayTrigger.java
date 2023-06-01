@@ -4,7 +4,8 @@ public class RoleplayTrigger {
 	
 	public enum METype {
 		SELF,
-		OTHER
+		OTHER,
+		ANY
 	}
 	
 	public METype type = null;

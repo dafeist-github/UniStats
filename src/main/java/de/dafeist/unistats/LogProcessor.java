@@ -14,6 +14,7 @@ import de.dafeist.unistats.stat.Statistic;
 import de.dafeist.unistats.stat.TimebasedStatistic;
 import de.dafeist.unistats.stat.trigger.PredefinedTrigger;
 import de.dafeist.unistats.stat.trigger.RoleplayTrigger;
+import de.dafeist.unistats.stat.trigger.RoleplayTrigger.METype;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
@@ -213,7 +214,9 @@ public class LogProcessor {
 			calltime.addEndTrigger("Du hast den Anruf weggedrückt.");
 		TimebasedStatistic.statistics.add(calltime);
 		
-		//TODO: Wie viele Anrufe angenommen?
+		//Roleplay Actions
+		//RoleplayStatistic 
+		
 		//TODO: Wie viel Alkohol insgesamt gekauft?
 		
 		//TODO: Überweisungen
@@ -293,8 +296,19 @@ public class LogProcessor {
 					if(content.contains(s)) ret = true;
 				}
 				
-				if(!ret && content.startsWith("* ")) {
-					statistic.count();
+				if(!ret) {
+					for(String name : UniStats.playerNames.values()) {
+						if(content.startsWith("* " + name) && trigger.type == METype.SELF) {
+							//SELF
+							statistic.count();
+						} else if(content.startsWith("* ") && content.contains(name) && trigger.type == METype.OTHER) {
+							//OTHER
+							statistic.count();
+						} else if(content.startsWith("* ") && trigger.type == METype.ANY) {
+							//ANY
+							statistic.count();
+						}
+					}
 				}
 				
 			}
