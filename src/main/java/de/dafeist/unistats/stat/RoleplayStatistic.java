@@ -8,7 +8,13 @@ import de.dafeist.unistats.stat.trigger.RoleplayTrigger;
 public class RoleplayStatistic {
 	
 	public enum RPAction {
-		
+		PACKEN,
+		GEPACKT,
+		GEPACKTANY,
+		KNEBELN,
+		GEKNEBELT,
+		FESSELN,
+		GEFESSELT
 	}
 	
 	public String name;

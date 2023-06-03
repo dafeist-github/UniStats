@@ -26,4 +26,9 @@ public class RoleplayTrigger {
 		new RoleplayTrigger(type, include, null);
 	}
 	
+	public RoleplayTrigger(METype type, String include) {
+		String[] in = {include};
+		new RoleplayTrigger(type, in, null);
+	}
+	
 }

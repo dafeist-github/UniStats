@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import de.dafeist.unistats.UniStats.Action;
 import de.dafeist.unistats.stat.RoleplayStatistic;
+import de.dafeist.unistats.stat.RoleplayStatistic.RPAction;
 import de.dafeist.unistats.stat.Statistic;
 import de.dafeist.unistats.stat.TimebasedStatistic;
 import de.dafeist.unistats.stat.trigger.PredefinedTrigger;
@@ -217,10 +218,40 @@ public class LogProcessor {
 		//Roleplay Actions
 		RoleplayStatistic totalSelf = new RoleplayStatistic("Gesamt /me's ausgeführt", "Du hast x mal /me ausgeführt");
 			RoleplayStatistic.hardcoded.add(totalSelf);
+			
 		RoleplayStatistic totalOther = new RoleplayStatistic("Gesamt /me's an dir ausgeführt", "Andere Spieler haben x mal eine /me Aktion an dir ausgeführt");
 			RoleplayStatistic.hardcoded.add(totalOther);
+			
 		RoleplayStatistic total = new RoleplayStatistic("Gesamt /me's gesehen", "Du hast insgesamt x mal ein /me gesehen, egal von wem");
 			RoleplayStatistic.hardcoded.add(total);
+			
+		RoleplayStatistic packenTotal = new RoleplayStatistic("/me packt xy gesehen", "Du hast insgesamt x mal gesehen, wie jemand gepackt wurde", RPAction.GEPACKTANY);
+			packenTotal.addTrigger(new RoleplayTrigger(METype.ANY, " packt "));
+		RoleplayStatistic.statistics.add(packenTotal);
+		
+		RoleplayStatistic packen = new RoleplayStatistic("Leute gepackt", "Du hast x mal Jemanden gepackt", RPAction.PACKEN);
+			packen.addTrigger(new RoleplayTrigger(METype.SELF, " packt "));
+		RoleplayStatistic.statistics.add(packen);
+		
+		RoleplayStatistic gepackt = new RoleplayStatistic("Gepackt worden", "Du wurdest x mal gepackt", RPAction.GEPACKT);
+			gepackt.addTrigger(new RoleplayTrigger(METype.OTHER, " packt "));
+		RoleplayStatistic.statistics.add(gepackt);
+		
+		RoleplayStatistic knebeln = new RoleplayStatistic("Leute geknebelt", "Du hast x mal eine Person geknebelt", RPAction.KNEBELN);
+			knebeln.addTrigger(new RoleplayTrigger(METype.SELF, " knebelt "));
+		RoleplayStatistic.statistics.add(knebeln);
+		
+		RoleplayStatistic geknebelt = new RoleplayStatistic("Geknebelt worden", "Du wurdest x mal geknebelt", RPAction.GEKNEBELT);
+			geknebelt.addTrigger(new RoleplayTrigger(METype.OTHER, " knebelt "));
+		RoleplayStatistic.statistics.add(geknebelt);
+		
+		RoleplayStatistic fesseln = new RoleplayStatistic("Leute gefesselt", "Du hast x mal eine Person gefesselt", RPAction.FESSELN);
+			fesseln.addTrigger(new RoleplayTrigger(METype.SELF, " fesselt "));
+		RoleplayStatistic.statistics.add(fesseln);
+		
+		RoleplayStatistic gefesselt = new RoleplayStatistic("Gefesselt worden", "Du wurdest x mal gefesselt", RPAction.GEFESSELT);
+			gefesselt.addTrigger(new RoleplayTrigger(METype.OTHER, " fesselt "));
+		RoleplayStatistic.statistics.add(gefesselt);
 		
 		//TODO: Wie viel Alkohol insgesamt gekauft?
 		
@@ -310,7 +341,7 @@ public class LogProcessor {
 							//SELF
 							RoleplayStatistic.hardcoded.get(0).count();
 							statistic.count();
-						} else if(content.startsWith("* ") && content.contains(name) && trigger.type == METype.OTHER) {
+						} else if(content.startsWith("* ") && content.contains(name) && !content.startsWith("* " + name) && trigger.type == METype.OTHER) {
 							//OTHER
 							RoleplayStatistic.hardcoded.get(1).count();
 							statistic.count();
