@@ -24,6 +24,7 @@ public class UniStats {
 	public static File decompFolder;
 	public static File logFolder;
 	public static File targetFolder;
+	public static File ddFolder;
 	
 	public static int logAmt = 0;
 	
@@ -48,6 +49,7 @@ public class UniStats {
 		OPENBAG,
 		OPENTRASH,
 		AFK,
+		NOAFK,
 		SENDAD,
 		SENDSMS,
 		RECEIVESMS,
@@ -239,7 +241,6 @@ public class UniStats {
 				
 			writer.flush();
 			writer.close();
-				
 			FileWriter appendDct = new FileWriter(target, true);
 			
 			appendDct.write("\n[UniStats] Detected new Instance-Start, total: " + appends + " \n");
@@ -332,11 +333,13 @@ public class UniStats {
         decompFolder = new File(dataFolder.getPath() + "\\decomp");
         logFolder = new File(dataFolder.getPath() + "\\logprocess");
         targetFolder = new File(dataFolder.getPath() + "\\target");
+        ddFolder = new File(dataFolder.getPath() + "\\target\\data");
         
 		if(!dataFolder.exists()) dataFolder.mkdir();
 		if(!decompFolder.exists()) decompFolder.mkdir();
 		if(!logFolder.exists()) logFolder.mkdir();
 		if(!targetFolder.exists()) targetFolder.mkdir();
+		if(!ddFolder.exists()) ddFolder.mkdir();
 	}
 	
 	public static void extractLogs() {

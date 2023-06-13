@@ -48,9 +48,13 @@ public class LogProcessor {
 				BufferedReader reader = new BufferedReader(new FileReader(file));
 				FileWriter writer = new FileWriter(targetFolder.getPath() + "\\data\\" + file.getName());
 				
+				int c = 0;
+				
 				//To process all the data, we gotta insert all data into an Array
 				for(String line; (line = reader.readLine()) != null; ) {
-					lines.add(Line.fromString(line));
+					System.out.println(line);
+					if(c > 12 && line != null && !line.isEmpty() && line.startsWith("[") && !line.contains("[UniStats]")) lines.add(Line.fromString(line));
+					c++;
 				}
 				
 				//Now we can finally process them :)
@@ -72,6 +76,10 @@ public class LogProcessor {
 			
 		}
 		
+		for(Statistic statistic : Statistic.statistics) {
+			System.out.println(statistic.name + " | Count: " + statistic.count);
+		}
+		
 		progress.close();
 		
 	}
@@ -91,10 +99,6 @@ public class LogProcessor {
 			trashcanopens.addTrigger("Du durchwühlst den Mülleimer.");
 		Statistic.statistics.add(trashcanopens);
 		
-		Statistic afks = new Statistic("AFK gegangen", "Du bist x mal AFK gegangen", Action.AFK);
-			afks.addTrigger("Du bist nun im AFK-Modus.");
-		Statistic.statistics.add(afks);
-		
 		Statistic adsends = new Statistic("Werbungen geschalten", "Du hast x Werbungen geschalten", Action.SENDAD);
 			adsends.addTrigger("[Werbung] Die Werbung wird nun kontrolliert. Bitte gedulde dich ein bisschen, bis die Werbung veröffentlicht wird.");
 		Statistic.statistics.add(adsends);
@@ -110,7 +114,7 @@ public class LogProcessor {
 		
 		Statistic tbonus = new Statistic("Treueboni erhalten", "Du hast x Treueboni erhalten", Action.TBONUS);
 			tbonus.addTrigger("[Treuebonus] UnicaCity dankt dir für deine Treue und schenkt dir einen Treuepunkt!");
-		Statistic.statistics.add(smsreceives);
+		Statistic.statistics.add(tbonus);
 		
 		Statistic buytequila = new Statistic("Tequila's gekauft", "Du hast x mal einen Tequila gekauft", Action.BUYTEQUILA);
 			buytequila.addTrigger("Barkeeper: Hier haben Sie ihren Tequila.");
@@ -162,17 +166,17 @@ public class LogProcessor {
 		Statistic.statistics.add(revivesseen);
 		
 		Statistic pays = new Statistic("Bargeld gezahlt (Spieler)", "Du hast x mal Bargeld an andere Spieler gezahlt", Action.PAYMONEY);
-			pays.addPredefinedTrigger("Du hast ", 1, "$ gegeben!");
+			pays.addPredefinedTrigger("Du hast ", 1, "$ gegeben!", true);
 		Statistic.statistics.add(pays);
 		
 		Statistic receivemoney = new Statistic("Bargeld bekommen (Spieler)", "Du hast x mal Bargeld von anderen Spielern bekommen", Action.RECEIVEMONEY);
 			receivemoney.addPredefinedTrigger(" hat dir ", 1, "$ gegeben!");
 		Statistic.statistics.add(receivemoney);
 		
-		Statistic transferbankmoney = new Statistic("Geld überwiesen", "Du hast x mal Geld an einen anderen Spieler überwiesen", Action.TRANSFERBANKMONEY);
+		/*Statistic transferbankmoney = new Statistic("Geld überwiesen", "Du hast x mal Geld an einen anderen Spieler überwiesen", Action.TRANSFERBANKMONEY);
 			transferbankmoney.addPredefinedTrigger(null, 0, null);
 			//Ich brauch die Message noch /:
-		Statistic.statistics.add(transferbankmoney);
+		Statistic.statistics.add(transferbankmoney);*/
 		
 		Statistic receivebankmoney = new Statistic("Geld durch Überweisungen bekommen", "Du hast x mal Geld durch Überweisungen bekommen", Action.RECEIVEBANKMONEY);
 			receivebankmoney.addPredefinedTrigger(" hat dir ", 1, "$ überwiesen!");
@@ -206,6 +210,11 @@ public class LogProcessor {
 		TimebasedStatistic jailtime = new TimebasedStatistic("Im Gefängnis gelandet", "Du warst x mal im Gefängnis", Action.JAILED, Action.UNJAILED);
 			jailtime.addPredefinedTrigger("Du bist nun für ", 60, "Minuten im Gefängnis.");
 		TimebasedStatistic.statistics.add(jailtime);
+		
+		TimebasedStatistic afks = new TimebasedStatistic("AFK-Zeit", "Du bist x mal AFK gegangen", Action.AFK, Action.NOAFK);
+			afks.addStartTrigger("Du bist nun im AFK-Modus.");
+			afks.addEndTrigger("Du bist nun nicht mehr im AFK-Modus.");
+		TimebasedStatistic.statistics.add(afks);
 		
 		TimebasedStatistic calltime = new TimebasedStatistic("Anrufszeit", "Du warst x mal in einem Anruf", Action.STARTCALL, Action.ENDCALL);
 			calltime.addStartTrigger(" hat den Anruf angenommen.");
@@ -253,11 +262,112 @@ public class LogProcessor {
 			gefesselt.addTrigger(new RoleplayTrigger(METype.OTHER, " fesselt "));
 		RoleplayStatistic.statistics.add(gefesselt);
 		
+		RoleplayStatistic laugh = new RoleplayStatistic("Gelacht", "Du hast x mal gelacht", RPAction.LACHEN);
+			laugh.addTrigger(new RoleplayTrigger(METype.SELF, " lacht"));
+		RoleplayStatistic.statistics.add(laugh);
+		
+		RoleplayStatistic laughany = new RoleplayStatistic("Lachen gesehen", "Du hast x mal jemanden lachen gesehen", RPAction.LACHENANY);
+			laughany.addTrigger(new RoleplayTrigger(METype.ANY, " lacht"));
+		RoleplayStatistic.statistics.add(laughany);
+		
+		RoleplayStatistic laughE = new RoleplayStatistic("Gelächelt", "Du hast x mal gelächelt", RPAction.LAECHELN);
+			laughE.addTrigger(new RoleplayTrigger(METype.SELF, " lächelt"));
+		RoleplayStatistic.statistics.add(laughE);
+	
+		RoleplayStatistic laughanyE = new RoleplayStatistic("Lächeln gesehen", "Du hast x mal jemanden lächeln gesehen", RPAction.LAECHELNANY);
+			laughanyE.addTrigger(new RoleplayTrigger(METype.ANY, " lächelt"));
+		RoleplayStatistic.statistics.add(laughanyE);
+		
+		RoleplayStatistic schmunzeln = new RoleplayStatistic("Gechmunzelt", "Du hast x mal geschmunzelt", RPAction.SCHMUNZELN);
+			schmunzeln.addTrigger(new RoleplayTrigger(METype.SELF, " schmunzelt"));
+		RoleplayStatistic.statistics.add(schmunzeln);
+	
+		RoleplayStatistic schmunzelnany = new RoleplayStatistic("Schmunzeln gesehen", "Du hast x mal jemanden schmunzeln gesehen", RPAction.SCHMUNZELNANY);
+			schmunzelnany.addTrigger(new RoleplayTrigger(METype.ANY, " schmunzelt"));
+		RoleplayStatistic.statistics.add(schmunzelnany);
+		
+		RoleplayStatistic kiss = new RoleplayStatistic("Geküsst", "Du hast x mal jemanden geküsst", RPAction.KISS);
+			kiss.addTrigger(new RoleplayTrigger(METype.SELF, new String[]{" gibt ", " einen Kuss."}));
+		RoleplayStatistic.statistics.add(kiss);
+		
+		RoleplayStatistic kissother = new RoleplayStatistic("Geküsst worden", "Du wurdest x mal geküsst", RPAction.KISSOTHER);
+			kissother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" gibt ", " einen Kuss."}));
+		RoleplayStatistic.statistics.add(kissother);
+
+		RoleplayStatistic kissany = new RoleplayStatistic("Küsse gesehen", "Du hast x mal jemanden beim Küssen gesehen", RPAction.KISSANY);
+			kissany.addTrigger(new RoleplayTrigger(METype.ANY, new String[]{" gibt ", " einen Kuss."}));
+		RoleplayStatistic.statistics.add(kissany);
+		
+		RoleplayStatistic nicken = new RoleplayStatistic("Genickt", "Du hast x mal genickt", RPAction.NICKEN);
+		nicken.addTrigger(new RoleplayTrigger(METype.SELF, " nickt"));
+		RoleplayStatistic.statistics.add(nicken);
+
+		RoleplayStatistic nickenany = new RoleplayStatistic("Nicken gesehen", "Du hast x mal jemanden nicken gesehen", RPAction.NICKENANY);
+		nickenany.addTrigger(new RoleplayTrigger(METype.ANY, " nickt"));
+		RoleplayStatistic.statistics.add(nickenany);
+		
+		RoleplayStatistic ansehen = new RoleplayStatistic("Personen angesehen", "Du hast x mal jemanden angesehen", RPAction.ANSEHEN);
+			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " zu "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+		RoleplayStatistic.statistics.add(ansehen);
+		
+		RoleplayStatistic ansehenother = new RoleplayStatistic("Angesehen worden", "Du wurdest x mal angesehen", RPAction.ANSEHENOTHER);
+			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
+			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
+			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " zu "}));
+			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+		RoleplayStatistic.statistics.add(ansehenother);
+
+		RoleplayStatistic ansehenany = new RoleplayStatistic("Ansehen gesehen", "Du hast x mal jemanden jemanden ansehen gesehen", RPAction.ANSEHENANY);
+			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " zu "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+		RoleplayStatistic.statistics.add(ansehenany);
+		
+		RoleplayStatistic grin = new RoleplayStatistic("Gegrinst", "Du hast x mal gegrinst", RPAction.GRINSEN);
+		grin.addTrigger(new RoleplayTrigger(METype.SELF, " grinst"));
+		RoleplayStatistic.statistics.add(grin);
+
+		RoleplayStatistic grinany = new RoleplayStatistic("Grinsen gesehen", "Du hast x mal jemanden grinsen gesehen", RPAction.GRINSENANY);
+			grinany.addTrigger(new RoleplayTrigger(METype.ANY, " grinst"));
+		RoleplayStatistic.statistics.add(grinany);
+		
+		RoleplayStatistic tragen = new RoleplayStatistic("Personen getragen", "Du hast x mal jemanden getragen", RPAction.TRAGEN);
+			tragen.addTrigger(new RoleplayTrigger(METype.SELF, " trägt"));
+		RoleplayStatistic.statistics.add(tragen);
+		
+		RoleplayStatistic tragenother = new RoleplayStatistic("Getragen worden", "Du wurdest x mal getragen", RPAction.TRAGENOTHER);
+			tragenother.addTrigger(new RoleplayTrigger(METype.OTHER, " trägt"));
+		RoleplayStatistic.statistics.add(tragenother);
+	
+		RoleplayStatistic tragenany = new RoleplayStatistic("Tragen gesehen", "Du hast x mal jemanden jemanden tragen gesehen", RPAction.TRAGENANY);
+			tragenany.addTrigger(new RoleplayTrigger(METype.ANY, " trägt"));
+		RoleplayStatistic.statistics.add(tragenany);
+		
+		RoleplayStatistic schubsen = new RoleplayStatistic("Personen geschubst", "Du hast x mal jemanden geschubst", RPAction.SCHUBSEN);
+			schubsen.addTrigger(new RoleplayTrigger(METype.SELF, " schubst"));
+		RoleplayStatistic.statistics.add(schubsen);
+		
+		RoleplayStatistic schubsenother = new RoleplayStatistic("Geschubst worden", "Du wurdest x mal geschubst", RPAction.SCHUBSENOTHER);
+			schubsenother.addTrigger(new RoleplayTrigger(METype.OTHER, " schubst"));
+		RoleplayStatistic.statistics.add(schubsenother);
+		
+		RoleplayStatistic schubsenany = new RoleplayStatistic("Schubsen gesehen", "Du hast x mal jemanden jemanden schubsen gesehen", RPAction.SCHUBSENANY);
+			schubsenany.addTrigger(new RoleplayTrigger(METype.ANY, " schubst"));
+		RoleplayStatistic.statistics.add(schubsenany);
+		
 		//TODO: Wie viel Alkohol insgesamt gekauft?
 		
 		//TODO: Überweisungen
-		//TODO: Alles mit /me's und Chats
-			
+		
+		//TODO: Alles mit Chats und so
+		
 		//WICHTIG: BEI SERVER-LEAVE UNBEDINGT TIME-TRIGGERS RESETTEN!!!
 		
 		//Vielleicht machen Umlaute Probleme?
@@ -276,12 +386,17 @@ public class LogProcessor {
 					if(statistic.actionTrigger != null) line.setAction(statistic.actionTrigger);
 				}
 			}
+			if(!statistic.predefinedTriggers.isEmpty()) {
 			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
 				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
-					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + 1, line.getContent().indexOf(trigger.after));
+					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
+					between = between.replaceAll("[^0-9]", "");
+					if(!between.isBlank()) {
 					int amt = Integer.parseInt(between) * trigger.multiplier;
 					statistic.addValue(amt);
+					}
 				}
+			}
 			}
 			
 		}
@@ -311,8 +426,8 @@ public class LogProcessor {
 			
 			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
 				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
-					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + 1, line.getContent().indexOf(trigger.after));
-					int amt = Integer.parseInt(between) * trigger.multiplier;
+					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
+					int amt = Integer.parseInt(between.replace(" ", "")) * trigger.multiplier;
 					statistic.add(amt);
 				}
 			}
@@ -324,13 +439,17 @@ public class LogProcessor {
 				String content = line.getContent();
 				boolean ret = false;
 				
+				if(trigger.include != null && trigger.include.length >= 1) {
 				for(String s : trigger.include) {
 					if(!content.contains(s)) ret = true;
 				}
 				
+				if(trigger.exclude != null && trigger.exclude.length >= 1) {
 				for(String s : trigger.exclude) {
 					if(content.contains(s)) ret = true;
 				}
+					}
+						}
 				
 				if(!ret) {
 					for(String name : UniStats.playerNames.values()) {
