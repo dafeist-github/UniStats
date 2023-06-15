@@ -53,6 +53,10 @@ public class LogProcessor {
 				//To process all the data, we gotta insert all data into an Array
 				for(String line; (line = reader.readLine()) != null; ) {
 					//System.out.println(line);
+					
+					//Failsafe
+					if(line.contains("[UniStats] Detected new Instance-Start,")) for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
+					
 					if(c > 12 && line != null && !line.isEmpty() && line.startsWith("[") && !line.contains("[UniStats]")) lines.add(Line.fromString(line));
 					c++;
 				}
@@ -395,9 +399,6 @@ public class LogProcessor {
 	
 	public static void analyzeLine(Line line) {
 		
-		//Failsafe
-		if(line.getContent().contains("[UniStats] Detected new Instance-Start,")) for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
-		
 		//Normal Stats
 		for(Statistic statistic : Statistic.statistics) {
 			for(String string : statistic.triggers) {
@@ -441,6 +442,7 @@ public class LogProcessor {
 				if(line.getContent().contains(string)) {
 					if(statistic.s == null) continue;
 					statistic.add(Line.timeDiff(statistic.s, line.getTime()));
+					if(statistic.name.equals("Anrufszeit")) System.out.println("Calltime, Adding: " + Line.timeDiff(statistic.s, line.getTime()) / 60 + " Minutes");
 					line.setAction(statistic.endActionTrigger);
 					statistic.s = null;
 				}
