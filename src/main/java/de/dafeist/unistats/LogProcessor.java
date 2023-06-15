@@ -44,6 +44,9 @@ public class LogProcessor {
 		File targetFolder = UniStats.targetFolder;
 		
 		for(File file : UniStats.logFolder.listFiles()) {
+			
+				for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
+			
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(file));
 				FileWriter writer = new FileWriter(targetFolder.getPath() + "\\data\\" + file.getName());
@@ -246,6 +249,7 @@ public class LogProcessor {
 			calltime.addStartTriggerBlacklist("abgelehnt");
 			calltime.addEndTrigger("Der Gesprächspartner hat den Anruf beendet.");
 			calltime.addEndTrigger("Du hast den Anruf weggedrückt.");
+			calltime.addEndTrigger("Du hast aufgelegt.");
 		TimebasedStatistic.statistics.add(calltime);
 		
 		//Roleplay Actions
@@ -442,7 +446,6 @@ public class LogProcessor {
 				if(line.getContent().contains(string)) {
 					if(statistic.s == null) continue;
 					statistic.add(Line.timeDiff(statistic.s, line.getTime()));
-					if(statistic.name.equals("Anrufszeit")) System.out.println("Calltime, Adding: " + Line.timeDiff(statistic.s, line.getTime()) / 60 + " Minutes");
 					line.setAction(statistic.endActionTrigger);
 					statistic.s = null;
 				}
