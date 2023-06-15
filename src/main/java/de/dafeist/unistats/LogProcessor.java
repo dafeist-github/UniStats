@@ -457,21 +457,21 @@ public class LogProcessor {
 		for(RoleplayStatistic statistic : RoleplayStatistic.statistics) {
 			for(RoleplayTrigger trigger : statistic.triggers) {
 				String content = line.getContent();
-				boolean ret = false;
+				boolean fine = false;
 				
 				if(trigger.include != null && trigger.include.length >= 1) {
 				for(String s : trigger.include) {
-					if(!content.contains(s)) ret = true;
+					if(content.contains(s)) fine = true;
 				}
 				
 				if(trigger.exclude != null && trigger.exclude.length >= 1) {
 				for(String s : trigger.exclude) {
-					if(content.contains(s)) ret = true;
+					if(content.contains(s)) fine = false;
 				}
 					}
 						}
 				
-				if(!ret) {
+				if(!fine) {
 					if(content.startsWith("* ") && trigger.type == METype.ANY) {
 							//ANY
 							statistic.count();

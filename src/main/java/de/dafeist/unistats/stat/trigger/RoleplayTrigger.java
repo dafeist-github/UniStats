@@ -23,12 +23,16 @@ public class RoleplayTrigger {
 	}
 	
 	public RoleplayTrigger(METype type, String[] include) {
-		new RoleplayTrigger(type, include, null);
+		this.type = type;
+		this.include = include;
+		this.exclude = null;
 	}
 	
 	public RoleplayTrigger(METype type, String include) {
 		String[] in = {include};
-		new RoleplayTrigger(type, in, null);
+		this.type = type;
+		this.include = in;
+		this.exclude = null;
 	}
 	
 }
