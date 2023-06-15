@@ -399,6 +399,7 @@ public class LogProcessor {
 					if(!between.isBlank()) {
 					int amt = Integer.parseInt(between) * trigger.multiplier;
 					statistic.addValue(amt);
+					statistic.count();
 					}
 				}
 			}
