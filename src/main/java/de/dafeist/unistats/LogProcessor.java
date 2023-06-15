@@ -52,7 +52,7 @@ public class LogProcessor {
 				
 				//To process all the data, we gotta insert all data into an Array
 				for(String line; (line = reader.readLine()) != null; ) {
-					System.out.println(line);
+					//System.out.println(line);
 					if(c > 12 && line != null && !line.isEmpty() && line.startsWith("[") && !line.contains("[UniStats]")) lines.add(Line.fromString(line));
 					c++;
 				}
@@ -70,8 +70,12 @@ public class LogProcessor {
 				e.printStackTrace();
 			}
 			
+			//Flush Data
 			for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
+			lines.clear();
+			
 			logsProcessed++;
+			
 			progress.step();
 			
 		}
@@ -386,6 +390,7 @@ public class LogProcessor {
 					if(statistic.actionTrigger != null) line.setAction(statistic.actionTrigger);
 				}
 			}
+			
 			if(!statistic.predefinedTriggers.isEmpty()) {
 			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
 				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
