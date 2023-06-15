@@ -84,6 +84,18 @@ public class LogProcessor {
 			System.out.println(statistic.name + " | Count: " + statistic.count);
 		}
 		
+		for(TimebasedStatistic statistic : TimebasedStatistic.statistics) {
+			System.out.println(statistic.name + " | Time: " + statistic.time / 60);
+		}
+		
+		for(RoleplayStatistic statistic : RoleplayStatistic.statistics) {
+			System.out.println(statistic.name + " | Count: " + statistic.count);
+		}
+		
+		for(RoleplayStatistic statistic : RoleplayStatistic.hardcoded) {
+			System.out.println(statistic.name + " | Count: " + statistic.count);
+		}
+		
 		progress.close();
 		
 	}
@@ -439,6 +451,8 @@ public class LogProcessor {
 			}
 		}
 		
+		if(line.getContent().startsWith("* ")) RoleplayStatistic.hardcoded.get(2).count();
+		
 		//RolePlay Stats
 		for(RoleplayStatistic statistic : RoleplayStatistic.statistics) {
 			for(RoleplayTrigger trigger : statistic.triggers) {
@@ -458,9 +472,12 @@ public class LogProcessor {
 						}
 				
 				if(!ret) {
+					if(content.startsWith("* ") && trigger.type == METype.ANY) {
+							//ANY
+							statistic.count();
+					}
+					
 					for(String name : UniStats.playerNames.values()) {
-						
-						if(content.startsWith("* ")) RoleplayStatistic.hardcoded.get(2).count();
 						
 						if(content.startsWith("* " + name) && trigger.type == METype.SELF) {
 							//SELF
@@ -469,9 +486,6 @@ public class LogProcessor {
 						} else if(content.startsWith("* ") && content.contains(name) && !content.startsWith("* " + name) && trigger.type == METype.OTHER) {
 							//OTHER
 							RoleplayStatistic.hardcoded.get(1).count();
-							statistic.count();
-						} else if(content.startsWith("* ") && trigger.type == METype.ANY) {
-							//ANY
 							statistic.count();
 						}
 					}
