@@ -79,7 +79,8 @@ public class UniStats {
 		WITHDRAW,
 		DEPOSIT,
 		PAYDAY,
-		KILL
+		KILL,
+		DEATH
 	}
 	
 	public static void processLogs() {

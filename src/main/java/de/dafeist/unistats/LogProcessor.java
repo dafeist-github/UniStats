@@ -115,6 +115,10 @@ public class LogProcessor {
 			trashcanopens.addTrigger("Du durchwühlst den Mülleimer.");
 		Statistic.statistics.add(trashcanopens);
 		
+		Statistic deaths = new Statistic("Tode", "Du bist x mal gestorben", Action.DEATH);
+			deaths.addTrigger("kannst du sehen, wie lange du noch tot bist. ");
+		Statistic.statistics.add(deaths);
+		
 		Statistic adsends = new Statistic("Werbungen geschalten", "Du hast x Werbungen geschalten", Action.SENDAD);
 			adsends.addTrigger("[Werbung] Die Werbung wird nun kontrolliert. Bitte gedulde dich ein bisschen, bis die Werbung veröffentlicht wird.");
 		Statistic.statistics.add(adsends);
@@ -471,7 +475,7 @@ public class LogProcessor {
 					}
 						}
 				
-				if(!fine) {
+				if(fine) {
 					if(content.startsWith("* ") && trigger.type == METype.ANY) {
 							//ANY
 							statistic.count();
