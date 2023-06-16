@@ -71,6 +71,12 @@ public class LogProcessor {
 				//Now we can finally process them :)
 				for(Line line : lines) {
 					analyzeLine(line);
+					
+					for(int i = 0; i < UniStats.aliases.size(); i++) {
+						String key = (String) UniStats.aliases.keySet().toArray()[i];
+						if(line.getContent().contains(key)) line.getContent().replace(key, UniStats.aliases.get(key));
+					}
+					
 					linesProcessed++;
 				}
 				
@@ -459,11 +465,9 @@ public class LogProcessor {
 			messageself.add(whisperself);
 			messageself.add(screamself);
 		CalculatedStatistic.statistics.add(messageself);
-		
+
 		
 		//TODO: Überweisungen
-		
-		//TODO: Alles mit Chats und so
 		
 		//Vielleicht machen Umlaute Probleme?
 	}

@@ -29,6 +29,7 @@ public class UniStats {
 	public static int logAmt = 0;
 	
 	public static HashMap<Integer, String> playerNames = new HashMap<Integer, String>();
+	public static HashMap<String, String> aliases = new HashMap<String, String>();
 	
 	public static String[] targetServers = {"unicacity.de", "unicacity.de.", "tcpshield.unicacity.de", "tcpshield.unicacity.de.", "mc.unicacity.de", "mc.unicacity.de."};
 	
@@ -37,9 +38,15 @@ public class UniStats {
 	public static void main(String[] args) {
 		initEnvironment();
 		
+		prepAliases();
+		
 		extractLogs();
 		
 		processLogs();
+	}
+	
+	public static void prepAliases() {
+		aliases.put("Feist2007", "DaFeist");
 	}
 	
 	public enum Action {
