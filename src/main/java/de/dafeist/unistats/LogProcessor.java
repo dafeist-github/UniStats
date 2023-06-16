@@ -10,10 +10,13 @@ import java.util.ArrayList;
 
 import de.dafeist.unistats.UniStats.Action;
 import de.dafeist.unistats.stat.CalculatedStatistic;
+import de.dafeist.unistats.stat.ConvoStatistic;
 import de.dafeist.unistats.stat.RoleplayStatistic;
 import de.dafeist.unistats.stat.RoleplayStatistic.RPAction;
 import de.dafeist.unistats.stat.Statistic;
 import de.dafeist.unistats.stat.TimebasedStatistic;
+import de.dafeist.unistats.stat.trigger.ConvoTrigger;
+import de.dafeist.unistats.stat.trigger.ConvoTrigger.MSender;
 import de.dafeist.unistats.stat.trigger.PredefinedTrigger;
 import de.dafeist.unistats.stat.trigger.RoleplayTrigger;
 import de.dafeist.unistats.stat.trigger.RoleplayTrigger.METype;
@@ -106,6 +109,10 @@ public class LogProcessor {
 		
 		for(CalculatedStatistic statistic : CalculatedStatistic.statistics) {
 			statistic.calc();
+			System.out.println(statistic.name + " | Count: " + statistic.count);
+		}
+		
+		for(ConvoStatistic statistic : ConvoStatistic.statistics) {
 			System.out.println(statistic.name + " | Count: " + statistic.count);
 		}
 		
@@ -405,6 +412,8 @@ public class LogProcessor {
 			alcbuy.add(buyvodka);
 		CalculatedStatistic.statistics.add(alcbuy);
 		
+		//Convo
+		
 		//TODO: Überweisungen
 		
 		//TODO: Alles mit Chats und so
@@ -508,6 +517,42 @@ public class LogProcessor {
 							RoleplayStatistic.hardcoded.get(1).count();
 							statistic.count();
 						}
+					}
+				}
+				
+			}
+		}
+		
+		//Convo Stats
+		for(ConvoStatistic statistic : ConvoStatistic.statistics) {
+			for(ConvoTrigger trigger : statistic.triggers) {
+				String content = line.getContent();
+				boolean fine = false;
+				
+				if(trigger.include != null && trigger.include.length >= 1) {
+				for(String s : trigger.include) {
+					if(content.contains(s)) fine = true;
+				}
+				
+				if(trigger.exclude != null && trigger.exclude.length >= 1) {
+				for(String s : trigger.exclude) {
+					if(content.contains(s)) fine = false;
+				}
+					}
+						}
+				
+				if(fine) {
+					if(content.startsWith("[") && trigger.msender == MSender.ANY) {
+						//ANY
+						statistic.count();
+					}
+					
+					for(String name : UniStats.playerNames.values()) {
+						if(content.startsWith("[") && content.contains("] " + name + " ")) {
+							//SELF
+							statistic.count();
+						}
+						
 					}
 				}
 				
