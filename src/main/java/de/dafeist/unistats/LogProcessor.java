@@ -414,6 +414,53 @@ public class LogProcessor {
 		
 		//Convo
 		
+		ConvoStatistic sayany = new ConvoStatistic("Chat-Nachricht (Sagen) empfangen", "Du hast x mal eine Chat-Nachricht (Sagen) von einem Spieler empfangen");
+			sayany.addTrigger(new ConvoTrigger(MSender.ANY, " sagt: "));
+		ConvoStatistic.statistics.add(sayany);
+		
+		ConvoStatistic sayself = new ConvoStatistic("Chat-Nachricht (Sagen) gesendet", "Du hast x mal eine Chat-Nachricht (Sagen) gesendet");
+			sayself.addTrigger(new ConvoTrigger(MSender.SELF, " sagt: "));
+		ConvoStatistic.statistics.add(sayself);
+		
+		ConvoStatistic askany = new ConvoStatistic("Chat-Nachricht (Fragen) empfangen", "Du hast x mal eine Chat-Nachricht (Fragen) von einem Spieler empfangen");
+			askany.addTrigger(new ConvoTrigger(MSender.ANY, " fragt: "));
+		ConvoStatistic.statistics.add(askany);
+	
+		ConvoStatistic askself = new ConvoStatistic("Chat-Nachricht (Fragen) gesendet", "Du hast x mal eine Chat-Nachricht (Fragen) gesendet");
+			askself.addTrigger(new ConvoTrigger(MSender.SELF, " fragt: "));
+		ConvoStatistic.statistics.add(askself);
+		
+		ConvoStatistic whisperany = new ConvoStatistic("Chat-Nachricht (Flüstern) empfangen", "Du hast x mal eine Chat-Nachricht (Flüstern) von einem Spieler empfangen");
+			whisperany.addTrigger(new ConvoTrigger(MSender.ANY, " flüstert: "));
+		ConvoStatistic.statistics.add(whisperany);
+
+		ConvoStatistic whisperself = new ConvoStatistic("Chat-Nachricht (Flüstern) gesendet", "Du hast x mal eine Chat-Nachricht (Flüstern) gesendet");
+			whisperself.addTrigger(new ConvoTrigger(MSender.SELF, " flüstert: "));
+		ConvoStatistic.statistics.add(whisperself);
+		
+		ConvoStatistic screamany = new ConvoStatistic("Chat-Nachricht (Schreien) empfangen", "Du hast x mal eine Chat-Nachricht (Schreien) von einem Spieler empfangen");
+			screamany.addTrigger(new ConvoTrigger(MSender.ANY, " schreit: "));
+		ConvoStatistic.statistics.add(screamany);
+	
+		ConvoStatistic screamself = new ConvoStatistic("Chat-Nachricht (Schreien) gesendet", "Du hast x mal eine Chat-Nachricht (Schreien) gesendet");
+			screamself.addTrigger(new ConvoTrigger(MSender.SELF, " schreit: "));
+		ConvoStatistic.statistics.add(screamself);
+		
+		CalculatedStatistic messageany = new CalculatedStatistic("Chat-Nachricht empfangen", "Du hast x mal eine Chat-Nachricht von einem Spieler empfangen");
+			messageany.add(sayany);
+			messageany.add(askany);
+			messageany.add(whisperany);
+			messageany.add(screamany);
+		CalculatedStatistic.statistics.add(messageany);
+
+		CalculatedStatistic messageself = new CalculatedStatistic("Chat-Nachricht gesendet", "Du hast x mal eine Chat-Nachricht gesendet");
+			messageself.add(sayself);
+			messageself.add(askself);
+			messageself.add(whisperself);
+			messageself.add(screamself);
+		CalculatedStatistic.statistics.add(messageself);
+		
+		
 		//TODO: Überweisungen
 		
 		//TODO: Alles mit Chats und so

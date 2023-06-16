@@ -14,6 +14,7 @@ public class CalculatedStatistic {
 	public ArrayList<Statistic> relNormal = new ArrayList<Statistic>();
 	public ArrayList<RoleplayStatistic> relRP = new ArrayList<RoleplayStatistic>();
 	public ArrayList<TimebasedStatistic> relTB = new ArrayList<TimebasedStatistic>();
+	public ArrayList<ConvoStatistic> relCO = new ArrayList<ConvoStatistic>();
 	
 	public CalculatedStatistic(String name, String description) {
 		this.name = name;
@@ -32,10 +33,15 @@ public class CalculatedStatistic {
 		relTB.add(statistic);
 	}
 	
+	public void add(ConvoStatistic statistic) {
+		relCO.add(statistic);
+	}
+	
 	public void calc() {
 		for(Statistic statistic : relNormal) count = count + statistic.count;
 		for(RoleplayStatistic statistic : relRP) count = count + statistic.count;
 		for(TimebasedStatistic statistic : relTB) count = count + statistic.count;
+		for(ConvoStatistic statistic : relCO) count = count + statistic.count;
 	}
 	
 	
