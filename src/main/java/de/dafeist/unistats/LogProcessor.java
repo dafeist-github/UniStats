@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 import de.dafeist.unistats.UniStats.Action;
+import de.dafeist.unistats.stat.CalculatedStatistic;
 import de.dafeist.unistats.stat.RoleplayStatistic;
 import de.dafeist.unistats.stat.RoleplayStatistic.RPAction;
 import de.dafeist.unistats.stat.Statistic;
@@ -100,6 +101,11 @@ public class LogProcessor {
 		}
 		
 		for(RoleplayStatistic statistic : RoleplayStatistic.hardcoded) {
+			System.out.println(statistic.name + " | Count: " + statistic.count);
+		}
+		
+		for(CalculatedStatistic statistic : CalculatedStatistic.statistics) {
+			statistic.calc();
 			System.out.println(statistic.name + " | Count: " + statistic.count);
 		}
 		
@@ -390,13 +396,18 @@ public class LogProcessor {
 			schubsenany.addTrigger(new RoleplayTrigger(METype.ANY, " schubst"));
 		RoleplayStatistic.statistics.add(schubsenany);
 		
-		//TODO: Wie viel Alkohol insgesamt gekauft?
+		//Calculated
+		
+		CalculatedStatistic alcbuy = new CalculatedStatistic("Alkohol gekauft", "Du hast x mal Alkohol gekauft");
+			alcbuy.add(buytequila);
+			alcbuy.add(buywine);
+			alcbuy.add(buybeer);
+			alcbuy.add(buyvodka);
+		CalculatedStatistic.statistics.add(alcbuy);
 		
 		//TODO: Überweisungen
 		
 		//TODO: Alles mit Chats und so
-		
-		//WICHTIG: BEI SERVER-LEAVE UNBEDINGT TIME-TRIGGERS RESETTEN!!!
 		
 		//Vielleicht machen Umlaute Probleme?
 	}
@@ -502,7 +513,6 @@ public class LogProcessor {
 				
 			}
 		}
-		
 		
 	}
 	
