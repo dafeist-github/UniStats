@@ -97,7 +97,7 @@ public class LogProcessor {
 					int index = lines.indexOf(line) - excluded;
 							
 					if(incl.containsKey(index)) {
-						String includer = (String) incl.keySet().toArray()[index];
+						String includer = (String) incl.get(index);
 						
 						writer.write(includer);
 					}
