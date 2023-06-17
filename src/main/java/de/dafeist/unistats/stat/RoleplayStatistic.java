@@ -2,42 +2,11 @@ package de.dafeist.unistats.stat;
 
 import java.util.ArrayList;
 
+import de.dafeist.unistats.UniStats.Action;
 import de.dafeist.unistats.stat.trigger.RoleplayTrigger;
 
 
 public class RoleplayStatistic {
-	
-	public enum RPAction {
-		PACKEN,
-		GEPACKT,
-		GEPACKTANY,
-		KNEBELN,
-		GEKNEBELT,
-		FESSELN,
-		GEFESSELT,
-		LACHEN,
-		LACHENANY,
-		LAECHELN,
-		LAECHELNANY,
-		SCHMUNZELN,
-		SCHMUNZELNANY,
-		KISS,
-		KISSOTHER,
-		KISSANY,
-		NICKEN,
-		NICKENANY,
-		ANSEHEN,
-		ANSEHENOTHER,
-		ANSEHENANY,
-		GRINSEN,
-		GRINSENANY,
-		TRAGEN,
-		TRAGENOTHER,
-		TRAGENANY,
-		SCHUBSEN,
-		SCHUBSENOTHER,
-		SCHUBSENANY
-	}
 	
 	public String name;
 	public String description;
@@ -49,7 +18,7 @@ public class RoleplayStatistic {
 	
 	public ArrayList<RoleplayTrigger> triggers = new ArrayList<RoleplayTrigger>();
 	
-	public RPAction rpAction = null;
+	public Action rpAction = null;
 	
 	//Statistics are bound to the instance
 	public RoleplayStatistic(String name, String description) {
@@ -57,7 +26,7 @@ public class RoleplayStatistic {
 		this.description = description;
 	}
 	
-	public RoleplayStatistic(String name, String description, RPAction rpAction) {
+	public RoleplayStatistic(String name, String description, Action rpAction) {
 		this.name = name;
 		this.description = description;
 		this.rpAction = rpAction;

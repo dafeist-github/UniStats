@@ -1,7 +1,6 @@
 package de.dafeist.unistats;
 
 import de.dafeist.unistats.UniStats.Action;
-import de.dafeist.unistats.stat.RoleplayStatistic.RPAction;
 
 public class Line {
 	
@@ -59,10 +58,6 @@ public class Line {
 
 	public void setAction(Action action) {
 		this.action = action;
-	}
-	
-	public void setAction(RPAction action) {
-		this.action = Action.valueOf(action.toString());
 	}
 
 	public String getContent() {

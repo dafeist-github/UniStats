@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +12,6 @@ import de.dafeist.unistats.UniStats.Action;
 import de.dafeist.unistats.stat.CalculatedStatistic;
 import de.dafeist.unistats.stat.ConvoStatistic;
 import de.dafeist.unistats.stat.RoleplayStatistic;
-import de.dafeist.unistats.stat.RoleplayStatistic.RPAction;
 import de.dafeist.unistats.stat.Statistic;
 import de.dafeist.unistats.stat.TimebasedStatistic;
 import de.dafeist.unistats.stat.trigger.ConvoTrigger;
@@ -110,8 +108,6 @@ public class LogProcessor {
 					
 					linesProcessed++;
 				}
-				
-				
 				
 				reader.close();
 				writer.flush();
@@ -317,79 +313,79 @@ public class LogProcessor {
 		RoleplayStatistic total = new RoleplayStatistic("Gesamt /me's gesehen", "Du hast insgesamt x mal ein /me gesehen, egal von wem");
 			RoleplayStatistic.hardcoded.add(total);
 			
-		RoleplayStatistic packenTotal = new RoleplayStatistic("/me packt xy gesehen", "Du hast insgesamt x mal gesehen, wie jemand gepackt wurde", RPAction.GEPACKTANY);
+		RoleplayStatistic packenTotal = new RoleplayStatistic("/me packt xy gesehen", "Du hast insgesamt x mal gesehen, wie jemand gepackt wurde", Action.GEPACKTANY);
 			packenTotal.addTrigger(new RoleplayTrigger(METype.ANY, " packt "));
 		RoleplayStatistic.statistics.add(packenTotal);
 		
-		RoleplayStatistic packen = new RoleplayStatistic("Leute gepackt", "Du hast x mal Jemanden gepackt", RPAction.PACKEN);
+		RoleplayStatistic packen = new RoleplayStatistic("Leute gepackt", "Du hast x mal Jemanden gepackt", Action.PACKEN);
 			packen.addTrigger(new RoleplayTrigger(METype.SELF, " packt "));
 		RoleplayStatistic.statistics.add(packen);
 		
-		RoleplayStatistic gepackt = new RoleplayStatistic("Gepackt worden", "Du wurdest x mal gepackt", RPAction.GEPACKT);
+		RoleplayStatistic gepackt = new RoleplayStatistic("Gepackt worden", "Du wurdest x mal gepackt", Action.GEPACKT);
 			gepackt.addTrigger(new RoleplayTrigger(METype.OTHER, " packt "));
 		RoleplayStatistic.statistics.add(gepackt);
 		
-		RoleplayStatistic knebeln = new RoleplayStatistic("Leute geknebelt", "Du hast x mal eine Person geknebelt", RPAction.KNEBELN);
+		RoleplayStatistic knebeln = new RoleplayStatistic("Leute geknebelt", "Du hast x mal eine Person geknebelt", Action.KNEBELN);
 			knebeln.addTrigger(new RoleplayTrigger(METype.SELF, " knebelt "));
 		RoleplayStatistic.statistics.add(knebeln);
 		
-		RoleplayStatistic geknebelt = new RoleplayStatistic("Geknebelt worden", "Du wurdest x mal geknebelt", RPAction.GEKNEBELT);
+		RoleplayStatistic geknebelt = new RoleplayStatistic("Geknebelt worden", "Du wurdest x mal geknebelt", Action.GEKNEBELT);
 			geknebelt.addTrigger(new RoleplayTrigger(METype.OTHER, " knebelt "));
 		RoleplayStatistic.statistics.add(geknebelt);
 		
-		RoleplayStatistic fesseln = new RoleplayStatistic("Leute gefesselt", "Du hast x mal eine Person gefesselt", RPAction.FESSELN);
+		RoleplayStatistic fesseln = new RoleplayStatistic("Leute gefesselt", "Du hast x mal eine Person gefesselt", Action.FESSELN);
 			fesseln.addTrigger(new RoleplayTrigger(METype.SELF, " fesselt "));
 		RoleplayStatistic.statistics.add(fesseln);
 		
-		RoleplayStatistic gefesselt = new RoleplayStatistic("Gefesselt worden", "Du wurdest x mal gefesselt", RPAction.GEFESSELT);
+		RoleplayStatistic gefesselt = new RoleplayStatistic("Gefesselt worden", "Du wurdest x mal gefesselt", Action.GEFESSELT);
 			gefesselt.addTrigger(new RoleplayTrigger(METype.OTHER, " fesselt "));
 		RoleplayStatistic.statistics.add(gefesselt);
 		
-		RoleplayStatistic laugh = new RoleplayStatistic("Gelacht", "Du hast x mal gelacht", RPAction.LACHEN);
+		RoleplayStatistic laugh = new RoleplayStatistic("Gelacht", "Du hast x mal gelacht", Action.LACHEN);
 			laugh.addTrigger(new RoleplayTrigger(METype.SELF, " lacht"));
 		RoleplayStatistic.statistics.add(laugh);
 		
-		RoleplayStatistic laughany = new RoleplayStatistic("Lachen gesehen", "Du hast x mal jemanden lachen gesehen", RPAction.LACHENANY);
+		RoleplayStatistic laughany = new RoleplayStatistic("Lachen gesehen", "Du hast x mal jemanden lachen gesehen", Action.LACHENANY);
 			laughany.addTrigger(new RoleplayTrigger(METype.ANY, " lacht"));
 		RoleplayStatistic.statistics.add(laughany);
 		
-		RoleplayStatistic laughE = new RoleplayStatistic("Gelächelt", "Du hast x mal gelächelt", RPAction.LAECHELN);
+		RoleplayStatistic laughE = new RoleplayStatistic("Gelächelt", "Du hast x mal gelächelt", Action.LAECHELN);
 			laughE.addTrigger(new RoleplayTrigger(METype.SELF, " lächelt"));
 		RoleplayStatistic.statistics.add(laughE);
 	
-		RoleplayStatistic laughanyE = new RoleplayStatistic("Lächeln gesehen", "Du hast x mal jemanden lächeln gesehen", RPAction.LAECHELNANY);
+		RoleplayStatistic laughanyE = new RoleplayStatistic("Lächeln gesehen", "Du hast x mal jemanden lächeln gesehen", Action.LAECHELNANY);
 			laughanyE.addTrigger(new RoleplayTrigger(METype.ANY, " lächelt"));
 		RoleplayStatistic.statistics.add(laughanyE);
 		
-		RoleplayStatistic schmunzeln = new RoleplayStatistic("Gechmunzelt", "Du hast x mal geschmunzelt", RPAction.SCHMUNZELN);
+		RoleplayStatistic schmunzeln = new RoleplayStatistic("Gechmunzelt", "Du hast x mal geschmunzelt", Action.SCHMUNZELN);
 			schmunzeln.addTrigger(new RoleplayTrigger(METype.SELF, " schmunzelt"));
 		RoleplayStatistic.statistics.add(schmunzeln);
 	
-		RoleplayStatistic schmunzelnany = new RoleplayStatistic("Schmunzeln gesehen", "Du hast x mal jemanden schmunzeln gesehen", RPAction.SCHMUNZELNANY);
+		RoleplayStatistic schmunzelnany = new RoleplayStatistic("Schmunzeln gesehen", "Du hast x mal jemanden schmunzeln gesehen", Action.SCHMUNZELNANY);
 			schmunzelnany.addTrigger(new RoleplayTrigger(METype.ANY, " schmunzelt"));
 		RoleplayStatistic.statistics.add(schmunzelnany);
 		
-		RoleplayStatistic kiss = new RoleplayStatistic("Geküsst", "Du hast x mal jemanden geküsst", RPAction.KISS);
+		RoleplayStatistic kiss = new RoleplayStatistic("Geküsst", "Du hast x mal jemanden geküsst", Action.KISS);
 			kiss.addTrigger(new RoleplayTrigger(METype.SELF, new String[]{" gibt ", " einen Kuss."}));
 		RoleplayStatistic.statistics.add(kiss);
 		
-		RoleplayStatistic kissother = new RoleplayStatistic("Geküsst worden", "Du wurdest x mal geküsst", RPAction.KISSOTHER);
+		RoleplayStatistic kissother = new RoleplayStatistic("Geküsst worden", "Du wurdest x mal geküsst", Action.KISSOTHER);
 			kissother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" gibt ", " einen Kuss."}));
 		RoleplayStatistic.statistics.add(kissother);
 
-		RoleplayStatistic kissany = new RoleplayStatistic("Küsse gesehen", "Du hast x mal jemanden beim Küssen gesehen", RPAction.KISSANY);
+		RoleplayStatistic kissany = new RoleplayStatistic("Küsse gesehen", "Du hast x mal jemanden beim Küssen gesehen", Action.KISSANY);
 			kissany.addTrigger(new RoleplayTrigger(METype.ANY, new String[]{" gibt ", " einen Kuss."}));
 		RoleplayStatistic.statistics.add(kissany);
 		
-		RoleplayStatistic nicken = new RoleplayStatistic("Genickt", "Du hast x mal genickt", RPAction.NICKEN);
+		RoleplayStatistic nicken = new RoleplayStatistic("Genickt", "Du hast x mal genickt", Action.NICKEN);
 		nicken.addTrigger(new RoleplayTrigger(METype.SELF, " nickt"));
 		RoleplayStatistic.statistics.add(nicken);
 
-		RoleplayStatistic nickenany = new RoleplayStatistic("Nicken gesehen", "Du hast x mal jemanden nicken gesehen", RPAction.NICKENANY);
+		RoleplayStatistic nickenany = new RoleplayStatistic("Nicken gesehen", "Du hast x mal jemanden nicken gesehen", Action.NICKENANY);
 		nickenany.addTrigger(new RoleplayTrigger(METype.ANY, " nickt"));
 		RoleplayStatistic.statistics.add(nickenany);
 		
-		RoleplayStatistic ansehen = new RoleplayStatistic("Personen angesehen", "Du hast x mal jemanden angesehen", RPAction.ANSEHEN);
+		RoleplayStatistic ansehen = new RoleplayStatistic("Personen angesehen", "Du hast x mal jemanden angesehen", Action.ANSEHEN);
 			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
 			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
 			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
@@ -397,7 +393,7 @@ public class LogProcessor {
 			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
 		RoleplayStatistic.statistics.add(ansehen);
 		
-		RoleplayStatistic ansehenother = new RoleplayStatistic("Angesehen worden", "Du wurdest x mal angesehen", RPAction.ANSEHENOTHER);
+		RoleplayStatistic ansehenother = new RoleplayStatistic("Angesehen worden", "Du wurdest x mal angesehen", Action.ANSEHENOTHER);
 			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
 			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
 			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
@@ -405,7 +401,7 @@ public class LogProcessor {
 			ansehenother.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
 		RoleplayStatistic.statistics.add(ansehenother);
 
-		RoleplayStatistic ansehenany = new RoleplayStatistic("Ansehen gesehen", "Du hast x mal jemanden jemanden ansehen gesehen", RPAction.ANSEHENANY);
+		RoleplayStatistic ansehenany = new RoleplayStatistic("Ansehen gesehen", "Du hast x mal jemanden jemanden ansehen gesehen", Action.ANSEHENANY);
 			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
 			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
 			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
@@ -413,35 +409,35 @@ public class LogProcessor {
 			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
 		RoleplayStatistic.statistics.add(ansehenany);
 		
-		RoleplayStatistic grin = new RoleplayStatistic("Gegrinst", "Du hast x mal gegrinst", RPAction.GRINSEN);
+		RoleplayStatistic grin = new RoleplayStatistic("Gegrinst", "Du hast x mal gegrinst", Action.GRINSEN);
 		grin.addTrigger(new RoleplayTrigger(METype.SELF, " grinst"));
 		RoleplayStatistic.statistics.add(grin);
 
-		RoleplayStatistic grinany = new RoleplayStatistic("Grinsen gesehen", "Du hast x mal jemanden grinsen gesehen", RPAction.GRINSENANY);
+		RoleplayStatistic grinany = new RoleplayStatistic("Grinsen gesehen", "Du hast x mal jemanden grinsen gesehen", Action.GRINSENANY);
 			grinany.addTrigger(new RoleplayTrigger(METype.ANY, " grinst"));
 		RoleplayStatistic.statistics.add(grinany);
 		
-		RoleplayStatistic tragen = new RoleplayStatistic("Personen getragen", "Du hast x mal jemanden getragen", RPAction.TRAGEN);
+		RoleplayStatistic tragen = new RoleplayStatistic("Personen getragen", "Du hast x mal jemanden getragen", Action.TRAGEN);
 			tragen.addTrigger(new RoleplayTrigger(METype.SELF, " trägt"));
 		RoleplayStatistic.statistics.add(tragen);
 		
-		RoleplayStatistic tragenother = new RoleplayStatistic("Getragen worden", "Du wurdest x mal getragen", RPAction.TRAGENOTHER);
+		RoleplayStatistic tragenother = new RoleplayStatistic("Getragen worden", "Du wurdest x mal getragen", Action.TRAGENOTHER);
 			tragenother.addTrigger(new RoleplayTrigger(METype.OTHER, " trägt"));
 		RoleplayStatistic.statistics.add(tragenother);
 	
-		RoleplayStatistic tragenany = new RoleplayStatistic("Tragen gesehen", "Du hast x mal jemanden jemanden tragen gesehen", RPAction.TRAGENANY);
+		RoleplayStatistic tragenany = new RoleplayStatistic("Tragen gesehen", "Du hast x mal jemanden jemanden tragen gesehen", Action.TRAGENANY);
 			tragenany.addTrigger(new RoleplayTrigger(METype.ANY, " trägt"));
 		RoleplayStatistic.statistics.add(tragenany);
 		
-		RoleplayStatistic schubsen = new RoleplayStatistic("Personen geschubst", "Du hast x mal jemanden geschubst", RPAction.SCHUBSEN);
+		RoleplayStatistic schubsen = new RoleplayStatistic("Personen geschubst", "Du hast x mal jemanden geschubst", Action.SCHUBSEN);
 			schubsen.addTrigger(new RoleplayTrigger(METype.SELF, " schubst"));
 		RoleplayStatistic.statistics.add(schubsen);
 		
-		RoleplayStatistic schubsenother = new RoleplayStatistic("Geschubst worden", "Du wurdest x mal geschubst", RPAction.SCHUBSENOTHER);
+		RoleplayStatistic schubsenother = new RoleplayStatistic("Geschubst worden", "Du wurdest x mal geschubst", Action.SCHUBSENOTHER);
 			schubsenother.addTrigger(new RoleplayTrigger(METype.OTHER, " schubst"));
 		RoleplayStatistic.statistics.add(schubsenother);
 		
-		RoleplayStatistic schubsenany = new RoleplayStatistic("Schubsen gesehen", "Du hast x mal jemanden jemanden schubsen gesehen", RPAction.SCHUBSENANY);
+		RoleplayStatistic schubsenany = new RoleplayStatistic("Schubsen gesehen", "Du hast x mal jemanden jemanden schubsen gesehen", Action.SCHUBSENANY);
 			schubsenany.addTrigger(new RoleplayTrigger(METype.ANY, " schubst"));
 		RoleplayStatistic.statistics.add(schubsenany);
 		
