@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.dafeist.unistats.UniStats.Action;
 import de.dafeist.unistats.stat.CalculatedStatistic;
@@ -29,6 +30,9 @@ public class LogProcessor {
 	public static void process() {
 		
 		ArrayList<Line> lines = new ArrayList<Line>();
+		ArrayList<String> header = new ArrayList<String>();
+		//Line-Count AFTER header
+		HashMap<Integer, String> incl = new HashMap<Integer, String>();
 		
 		System.out.println("Der Folgende Prozess kann eine lange Zeit dauern");
 		System.out.println("Es wird viel CPU-Leistung und möglicherweise Arbeitsspeicher in Anspruch genommen");
@@ -56,33 +60,63 @@ public class LogProcessor {
 				FileWriter writer = new FileWriter(targetFolder.getPath() + "\\data\\" + file.getName());
 				
 				int c = 0;
+				int excluded = 0;
 				
 				//To process all the data, we gotta insert all data into an Array
 				for(String line; (line = reader.readLine()) != null; ) {
 					//System.out.println(line);
 					
+					for(int i = 0; i < UniStats.aliases.size(); i++) {
+						String key = (String) UniStats.aliases.keySet().toArray()[i];
+						if(line.contains(key)) line.replace(key, UniStats.aliases.get(key));
+					}
+					
 					//Failsafe
 					if(line.contains("[UniStats] Detected new Instance-Start,")) for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
 					
-					if(c > 12 && line != null && !line.isEmpty() && line.startsWith("[") && !line.contains("[UniStats]")) lines.add(Line.fromString(line));
+					if(c > 12 && line != null && !line.isEmpty() && line.startsWith("[") && !line.contains("[UniStats]")) {
+						lines.add(Line.fromString(line));
+					} else if(c <= 12 && line != null && !line.isEmpty() && !line.startsWith("[")) {
+						excluded++;
+						header.add(line);
+					} else if(c > 12 && line != null && line.isEmpty() && !line.startsWith("|") && !line.startsWith("-")) {
+						excluded++;
+						incl.put(c, line);
+					} else {
+						excluded++;
+					}
+					
 					c++;
+				}
+				
+				for(String string : header) {
+					writer.write(string);
 				}
 				
 				//Now we can finally process them :)
 				for(Line line : lines) {
+					
+					int index = lines.indexOf(line) - excluded;
+							
+					if(incl.containsKey(index)) {
+						String includer = (String) incl.keySet().toArray()[index];
+						
+						writer.write(includer);
+					}
+					
 					analyzeLine(line);
 					
-					for(int i = 0; i < UniStats.aliases.size(); i++) {
-						String key = (String) UniStats.aliases.keySet().toArray()[i];
-						if(line.getContent().contains(key)) line.getContent().replace(key, UniStats.aliases.get(key));
-					}
+					writer.write(line.toString());
 					
 					linesProcessed++;
 				}
 				
+				
+				
 				reader.close();
 				writer.flush();
 				writer.close();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -90,6 +124,8 @@ public class LogProcessor {
 			//Flush Data
 			for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
 			lines.clear();
+			header.clear();
+			incl.clear();
 			
 			logsProcessed++;
 			
@@ -569,6 +605,7 @@ public class LogProcessor {
 							statistic.count();
 						}
 					}
+					line.setAction(statistic.rpAction);
 				}
 				
 			}
