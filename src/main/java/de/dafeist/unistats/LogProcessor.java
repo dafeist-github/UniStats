@@ -29,8 +29,6 @@ public class LogProcessor {
 		
 		ArrayList<Line> lines = new ArrayList<Line>();
 		ArrayList<String> header = new ArrayList<String>();
-		//Line-Count AFTER header
-		HashMap<Integer, String> incl = new HashMap<Integer, String>();
 		
 		System.out.println("Der Folgende Prozess kann eine lange Zeit dauern");
 		System.out.println("Es wird viel CPU-Leistung und möglicherweise Arbeitsspeicher in Anspruch genommen");
@@ -58,7 +56,6 @@ public class LogProcessor {
 				FileWriter writer = new FileWriter(targetFolder.getPath() + "\\data\\" + file.getName());
 				
 				int c = 0;
-				int excluded = 0;
 				
 				//To process all the data, we gotta insert all data into an Array
 				for(String line; (line = reader.readLine()) != null; ) {
@@ -70,41 +67,35 @@ public class LogProcessor {
 					}
 					
 					//Failsafe
-					if(line.contains("[UniStats] Detected new Instance-Start,")) for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
+					if(line.contains("[UniStats] Detected new Session,")) for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
 					
 					if(c > 12 && line != null && !line.isEmpty() && line.startsWith("[") && !line.contains("[UniStats]")) {
 						lines.add(Line.fromString(line));
 					} else if(c <= 12 && line != null && !line.isEmpty() && !line.startsWith("[")) {
-						excluded++;
 						header.add(line);
-					} else if(c > 12 && line != null && line.isEmpty() && !line.startsWith("|") && !line.startsWith("-")) {
-						excluded++;
-						incl.put(c, line);
-					} else {
-						excluded++;
 					}
 					
 					c++;
 				}
 				
 				for(String string : header) {
-					writer.write(string);
+					
+					string.replace(string.split(" ")[1], UniStats.playerNames.get(UniStats.playerNames.size() - 1));
+					
+					if(UniStats.aliases.containsKey(string.split(" ")[1])) {
+						string.replace(string.split(" ")[1], UniStats.aliases.get(string.split(" ")[1]));
+					}
+					
+					writer.write(string + " \n");
 				}
+				writer.write("\n");
 				
 				//Now we can finally process them :)
 				for(Line line : lines) {
 					
-					int index = lines.indexOf(line) - excluded;
-							
-					if(incl.containsKey(index)) {
-						String includer = (String) incl.get(index);
-						
-						writer.write(includer);
-					}
-					
 					analyzeLine(line);
 					
-					writer.write(line.toString());
+					writer.write(line.toString() + " \n");
 					
 					linesProcessed++;
 				}
@@ -121,7 +112,6 @@ public class LogProcessor {
 			for(TimebasedStatistic ts : TimebasedStatistic.statistics) ts.s = null;
 			lines.clear();
 			header.clear();
-			incl.clear();
 			
 			logsProcessed++;
 			

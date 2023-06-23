@@ -280,7 +280,7 @@ public class UniStats {
 			writer.close();
 			FileWriter appendDct = new FileWriter(target, true);
 			
-			appendDct.write("\n[UniStats] Detected new Instance-Start, total: " + appends + " \n");
+			appendDct.write("\n[UniStats] Detected new Session-Start, total: " + appends + " \n");
 				
 			appendDct.flush();
 			appendDct.close();
