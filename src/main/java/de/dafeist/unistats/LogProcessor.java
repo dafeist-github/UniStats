@@ -89,6 +89,7 @@ public class LogProcessor {
 					if(UniStats.aliases.containsKey(string.split(" ")[1])) {
 						string = string.replace(string.split(" ")[1], UniStats.aliases.get(string.split(" ")[1]));
 					}
+					
 					}
 					
 					writer.write(string + " \n");
@@ -501,6 +502,13 @@ public class LogProcessor {
 	}
 	
 	public static void analyzeLine(Line line) {
+		
+		for(String nametrigger : UniStats.aliases.keySet()) {
+			if(line.getContent().contains(nametrigger)) {
+				line.getContent().replaceAll(nametrigger, UniStats.aliases.get(nametrigger));
+			}
+		}
+		
 		
 		//Normal Stats
 		for(Statistic statistic : Statistic.statistics) {
