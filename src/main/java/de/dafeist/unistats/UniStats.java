@@ -47,6 +47,7 @@ public class UniStats {
 	
 	public static void prepAliases() {
 		aliases.put("Feist2007", "DaFeist");
+		aliases.put("feist2007", "DaFeist");
 	}
 	
 	public enum Action {

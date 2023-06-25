@@ -615,6 +615,20 @@ public class LogProcessor {
 							statistic.count();
 						}
 					}
+					
+					for(String name : UniStats.aliases.values()) {
+						
+						if(content.startsWith("* " + name) && trigger.type == METype.SELF) {
+							//SELF
+							RoleplayStatistic.hardcoded.get(0).count();
+							statistic.count();
+						} else if(content.startsWith("* ") && content.contains(name) && !content.startsWith("* " + name) && trigger.type == METype.OTHER) {
+							//OTHER
+							RoleplayStatistic.hardcoded.get(1).count();
+							statistic.count();
+						}
+					}
+					
 					line.setAction(statistic.rpAction);
 				}
 				
@@ -652,6 +666,14 @@ public class LogProcessor {
 						}
 						
 					}
+					
+					for(String name : UniStats.aliases.values()) {
+						if(content.startsWith("[") && content.contains("] " + name + " ")) {
+							//SELF
+							statistic.count();
+						}
+					}
+					
 				}
 				
 			}

@@ -52,12 +52,19 @@ public class DataFinalizer {
 			}
 		}
 		writer.write("- " + finalName + "\n");
-		writer.write("|-------------------------------------------|  \n\n");
+		writer.write("|-------------------------------------------|  \n");
+		writer.write("\n");
 		
 		writer.write("|-------------------------------------------|  \n");
 		writer.write("|                Statistics:                |  \n");
 		
-		for(Statistic statistic : Statistic.statistics) writer.write(statistic.name + ": " + statistic.count + " | Wert: " + statistic.refvalue + "\n");
+		for(Statistic statistic : Statistic.statistics) {
+			if(statistic.refvalue >= 1) {
+				writer.write(statistic.name + ": " + statistic.count + " | Wert: " + statistic.refvalue + "\n");
+			} else {
+				writer.write(statistic.name + ": " + statistic.count + "\n");
+			}
+		}
 		writer.write("\n");
 		for(RoleplayStatistic statistic : RoleplayStatistic.statistics) writer.write(statistic.name + ": " + statistic.count + "\n");
 		writer.write("\n");
@@ -74,16 +81,16 @@ public class DataFinalizer {
 			String timeString = hours + "h " + minutes + "min " + seconds + "s";
 			writer.write(statistic.name + ": " + statistic.count + " / " + timeString + "\n");
 		}
-		writer.write("|-------------------------------------------|  \n\n|-------------------------------------------|  \n");
+		writer.write("|-------------------------------------------|  \n");
+	    writer.write("\n|-------------------------------------------|  \n");
 		writer.write("|                  Debug:                   |  \n");
-		writer.write("Lines processed: " + linesProcessed);
-		writer.write("Logs processed: " + logsProcessed);
-		writer.write("|-------------------------------------------|  \n\n");
+		writer.write("Lines processed: " + linesProcessed + "\n");
+		writer.write("Logs processed: " + logsProcessed + "\n");
+		writer.write("|-------------------------------------------|  \n");
+		writer.write("\n");
 		
-		writer.flush();
-		
-		for(File log : UniStats.targetFolder.listFiles()) {
-
+		for(File log : UniStats.ddFolder.listFiles()) {
+				if(log.isDirectory()) continue;
 				BufferedReader reader = new BufferedReader(new FileReader(log));
 				
 				for(String line; (line = reader.readLine()) != null; ) {
@@ -91,7 +98,7 @@ public class DataFinalizer {
 							&& !line.contains("|            UniStats by DaFeist            |  ")
 							&& !line.contains("|               Do not modify               |  ")
 							&& !line.contains("|-------------------------------------------|  ")) {
-						writer.write(line);
+						writer.write(line + "\n");
 					}
 				}
 				writer.write("\n");
