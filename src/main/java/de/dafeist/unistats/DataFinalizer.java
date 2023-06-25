@@ -21,6 +21,34 @@ public class DataFinalizer {
 		writer.write("|-------------------------------------------|  \n");
 		writer.write("\n");
 		
+		writer.write("|-------------------------------------------|  \n");
+		writer.write("|                  Names:                   |  \n");
+		for(int i : UniStats.playerNames.keySet()) {
+			writer.write("- " + UniStats.playerNames.get(i) + "\n");
+		}
+		writer.write("|------------------Player:------------------|  \n");
+		
+		String finalName = "";
+		
+		if(UniStats.playerNames.size() > 1) {
+		for(int i = 0; i < UniStats.playerNames.size() - 1; i++) {
+			String target = UniStats.playerNames.get(i);
+			finalName = finalName.replace(target, UniStats.playerNames.get(UniStats.playerNames.size() - 1));
+			}
+		
+		} else {
+			finalName = UniStats.playerNames.get(0);
+		}
+		
+		for(String nametrigger : UniStats.aliases.keySet()) {
+			if(finalName.contains(nametrigger)) {
+				finalName = finalName.replace(nametrigger, UniStats.aliases.get(nametrigger));
+			}
+		}
+		writer.write("- " + finalName + "\n");
+		writer.write("|-------------------------------------------|  \n");
+		
+		writer.flush();
 		
 		for(File log : UniStats.targetFolder.listFiles()) {
 
