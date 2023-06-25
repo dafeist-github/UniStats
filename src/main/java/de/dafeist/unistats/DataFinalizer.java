@@ -13,7 +13,7 @@ import de.dafeist.unistats.stat.TimebasedStatistic;
 
 public class DataFinalizer {
 	
-	public static void run() {
+	public static void run(int linesProcessed, int logsProcessed) {
 		
 		System.out.println("Finalisiere Daten...");
 		
@@ -72,8 +72,12 @@ public class DataFinalizer {
 			int minutes = (statistic.time % 3600) / 60;
 			int seconds = statistic.time % 60;
 			String timeString = hours + "h " + minutes + "min " + seconds + "s";
-			writer.write(statistic.name + ": " + statistic.count + " / " + statistic.time / 60 + "\n");
+			writer.write(statistic.name + ": " + statistic.count + " / " + timeString + "\n");
 		}
+		writer.write("|-------------------------------------------|  \n\n|-------------------------------------------|  \n");
+		writer.write("|                  Debug:                   |  \n");
+		writer.write("Lines processed: " + linesProcessed);
+		writer.write("Logs processed: " + logsProcessed);
 		writer.write("|-------------------------------------------|  \n\n");
 		
 		writer.flush();

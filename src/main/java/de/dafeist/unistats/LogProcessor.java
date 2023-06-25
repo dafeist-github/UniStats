@@ -25,7 +25,7 @@ import me.tongfei.progressbar.ProgressBarStyle;
 
 public class LogProcessor {
 	
-	public static void process() {
+	public static void process(int lp, int lop) {
 		
 		ArrayList<Line> lines = new ArrayList<Line>();
 		ArrayList<String> header = new ArrayList<String>();
@@ -153,7 +153,7 @@ public class LogProcessor {
 		
 		progress.close();
 		
-		DataFinalizer.run();
+		DataFinalizer.run(lp, lop);
 		
 	}
 	

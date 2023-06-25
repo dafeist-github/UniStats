@@ -311,7 +311,7 @@ public class UniStats {
 	    progress.close();
 	    
 	    System.out.println("...Erfolg! " + logsProcessed + " Logs gefiltert, " + linesProcessed + " Zeilen verarbeitet");
-	    LogProcessor.process();
+	    LogProcessor.process(linesProcessed, logsProcessed);
 		
 	}
 	
