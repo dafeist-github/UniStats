@@ -153,6 +153,8 @@ public class LogProcessor {
 		
 		progress.close();
 		
+		DataFinalizer.run();
+		
 	}
 	
 	public static void initStats() {
