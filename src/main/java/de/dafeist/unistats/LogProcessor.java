@@ -78,15 +78,21 @@ public class LogProcessor {
 					c++;
 				}
 				
+				int h = 0;
+				
 				for(String string : header) {
 					
-					string.replace(string.split(" ")[1], UniStats.playerNames.get(UniStats.playerNames.size() - 1));
+					if(h == 5)  {
+						
+					string = string.replace(string.split(" ")[1], UniStats.playerNames.get(UniStats.playerNames.size() - 1));
 					
 					if(UniStats.aliases.containsKey(string.split(" ")[1])) {
-						string.replace(string.split(" ")[1], UniStats.aliases.get(string.split(" ")[1]));
+						string = string.replace(string.split(" ")[1], UniStats.aliases.get(string.split(" ")[1]));
+					}
 					}
 					
 					writer.write(string + " \n");
+					h++;
 				}
 				writer.write("\n");
 				
