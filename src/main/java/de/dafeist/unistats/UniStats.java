@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import de.dafeist.unistats.crypto.Hashing;
 import de.dafeist.unistats.parse.StringUtils;
@@ -417,5 +418,21 @@ public class UniStats {
 	    }
 		
 	}
+	
+	public static void compressGzip(File source, File target) throws IOException {
+
+        try (GZIPOutputStream gos = new GZIPOutputStream(new FileOutputStream(target));
+             FileInputStream fis = new FileInputStream(source)) {
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fis.read(buffer)) > 0) {
+                gos.write(buffer, 0, len);
+            }
+
+        }
+
+    }
+
 
 }

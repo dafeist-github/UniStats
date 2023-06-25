@@ -108,6 +108,11 @@ public class DataFinalizer {
 		}
 		
 		writer.close();
+		
+		File compressed = new File(UniStats.targetFolder.getPath() + File.separator + "data.gz");
+		compressed.createNewFile();
+		
+		UniStats.compressGzip(file, compressed);
 
 		
 		} catch(Exception e) {
