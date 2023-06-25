@@ -5,6 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+import de.dafeist.unistats.stat.CalculatedStatistic;
+import de.dafeist.unistats.stat.ConvoStatistic;
+import de.dafeist.unistats.stat.RoleplayStatistic;
+import de.dafeist.unistats.stat.Statistic;
+import de.dafeist.unistats.stat.TimebasedStatistic;
+
 public class DataFinalizer {
 	
 	public static void run() {
@@ -46,6 +52,28 @@ public class DataFinalizer {
 			}
 		}
 		writer.write("- " + finalName + "\n");
+		writer.write("|-------------------------------------------|  \n\n");
+		
+		writer.write("|-------------------------------------------|  \n");
+		writer.write("|                Statistics:                |  \n");
+		
+		for(Statistic statistic : Statistic.statistics) writer.write(statistic.name + ": " + statistic.count + " | Wert: " + statistic.refvalue + "\n");
+		writer.write("\n");
+		for(RoleplayStatistic statistic : RoleplayStatistic.statistics) writer.write(statistic.name + ": " + statistic.count + "\n");
+		writer.write("\n");
+		for(ConvoStatistic statistic : ConvoStatistic.statistics) writer.write(statistic.name + ": " + statistic.count + "\n");
+		writer.write("\n");
+		for(CalculatedStatistic statistic : CalculatedStatistic.statistics) writer.write(statistic.name + ": " + statistic.count + "\n");
+		writer.write("\n");
+		for(RoleplayStatistic statistic : RoleplayStatistic.hardcoded) writer.write(statistic.name + ": " + statistic.count + "\n");
+		writer.write("\n");
+		for(TimebasedStatistic statistic : TimebasedStatistic.statistics) {
+			int hours = statistic.time / 3600;
+			int minutes = (statistic.time % 3600) / 60;
+			int seconds = statistic.time % 60;
+			String timeString = hours + "h " + minutes + "min " + seconds + "s";
+			writer.write(statistic.name + ": " + statistic.count + " / " + statistic.time / 60 + "\n");
+		}
 		writer.write("|-------------------------------------------|  \n");
 		
 		writer.flush();
