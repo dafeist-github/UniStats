@@ -503,9 +503,17 @@ public class LogProcessor {
 	
 	public static void analyzeLine(Line line) {
 		
+		if(UniStats.playerNames.size() > 1) {
+		for(int i = 0; i < UniStats.playerNames.size() - 1; i++) {
+			String target = UniStats.playerNames.get(i);
+			line.content = line.getContent().replaceAll(target, UniStats.playerNames.get(UniStats.playerNames.size() - 1));
+			}
+		
+		}
+		
 		for(String nametrigger : UniStats.aliases.keySet()) {
 			if(line.getContent().contains(nametrigger)) {
-				line.getContent().replaceAll(nametrigger, UniStats.aliases.get(nametrigger));
+				line.content = line.getContent().replaceAll(nametrigger, UniStats.aliases.get(nametrigger));
 			}
 		}
 		
