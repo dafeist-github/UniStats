@@ -74,7 +74,7 @@ public class DataFinalizer {
 			String timeString = hours + "h " + minutes + "min " + seconds + "s";
 			writer.write(statistic.name + ": " + statistic.count + " / " + statistic.time / 60 + "\n");
 		}
-		writer.write("|-------------------------------------------|  \n");
+		writer.write("|-------------------------------------------|  \n\n");
 		
 		writer.flush();
 		
