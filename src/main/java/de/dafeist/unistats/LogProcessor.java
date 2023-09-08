@@ -6,9 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import de.dafeist.unistats.UniStats.Action;
 import de.dafeist.unistats.stat.CalculatedStatistic;
 import de.dafeist.unistats.stat.ConvoStatistic;
 import de.dafeist.unistats.stat.RoleplayStatistic;

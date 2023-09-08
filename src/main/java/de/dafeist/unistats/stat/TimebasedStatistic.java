@@ -2,7 +2,7 @@ package de.dafeist.unistats.stat;
 
 import java.util.ArrayList;
 
-import de.dafeist.unistats.UniStats.Action;
+import de.dafeist.unistats.Action;
 import de.dafeist.unistats.stat.trigger.PredefinedTrigger;
 
 public class TimebasedStatistic {
