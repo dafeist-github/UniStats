@@ -182,10 +182,7 @@ public class UniStats {
 			}
 			
 			}
-			
-		} catch(ArrayIndexOutOfBoundsException e || IndexOutOfBoundsException e || StringIndexOutOfBoundsException e) {
-			continue;
-		}
+		
 			
 			try {
 			
@@ -278,6 +275,7 @@ public class UniStats {
 			    	linesProcessed++;
 			    }
 			    
+			    
 		logsProcessed++;
 		progress.step();
 		
@@ -314,6 +312,9 @@ public class UniStats {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+			} catch(IndexOutOfBoundsException e) {
+				continue;
+			}
 			
 			}
 		
