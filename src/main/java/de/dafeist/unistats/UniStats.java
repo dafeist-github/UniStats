@@ -34,7 +34,7 @@ public class UniStats {
 	
 	public static String[] targetServers = {"unicacity.de", "unicacity.de.", "tcpshield.unicacity.de", "tcpshield.unicacity.de.", "mc.unicacity.de", "mc.unicacity.de."};
 	
-	public static File instanceFolder = new File("C:\\Users\\Feist\\Downloads\\testinst");
+	public static File instanceFolder = new File("C:\\Users\\Feist\\AppData\\Roaming\\.minecraft");
 	
 	public static void main(String[] args) {
 		initEnvironment();
@@ -126,7 +126,7 @@ public class UniStats {
 		logAmt = decompFolder.listFiles().length;
 		System.out.println("Dieser Prozess kann viel CPU-Leistung in Anspruch nehmen");
 		
-		ProgressBar progress = new ProgressBarBuilder().setTaskName("Bearbeite Datens" + "ä" + "tze...")
+		ProgressBar progress = new ProgressBarBuilder().setTaskName("Bearbeite Datensätze...")
 				.setInitialMax(logAmt)
 				.setStyle(ProgressBarStyle.ASCII)
 				.continuousUpdate()
@@ -140,6 +140,9 @@ public class UniStats {
 		File target = null;
 		
 		for(File file : decompFolder.listFiles()) {
+			
+			try {
+				
 			boolean headerLock = false;
 			
 			FileWriter writer = null;
@@ -179,6 +182,10 @@ public class UniStats {
 			}
 			
 			}
+			
+		} catch(ArrayIndexOutOfBoundsException e || IndexOutOfBoundsException e || StringIndexOutOfBoundsException e) {
+			continue;
+		}
 			
 			try {
 			
