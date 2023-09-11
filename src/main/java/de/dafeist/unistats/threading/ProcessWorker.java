@@ -163,11 +163,46 @@ public class ProcessWorker implements Runnable {
 		    	UniStats.linesProcessed++;
 		    }
 		    
+			
+			if(append && hasData) {
+				try {
+				appends++;
+					
+				writer.flush();
+				writer.close();
+				FileWriter appendDct = new FileWriter(target, true);
+				
+				appendDct.write("\n[UniStats] Detected new Session-Start, total: " + appends + " \n");
+					
+				appendDct.flush();
+				appendDct.close();
+				
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+			} else {
+				writer.flush();
+				writer.close();
+			}
+			
+			reader.close();
+			
+			//Kill log if empty
+			if(!append && !hasData || target.length() < 460) {
+				target.delete();
+			}
+			
+			prev = target;
+			
 		    } catch(Exception e) {
 		    	e.printStackTrace();
 		    }
 			
 		}
+		
+		UniStats.logsProcessed++;
+		UniStats.progress.step();
 		
 	}
 

@@ -1,20 +1,16 @@
 package de.dafeist.unistats;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import de.dafeist.unistats.crypto.Hashing;
-import de.dafeist.unistats.parse.StringUtils;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
@@ -31,6 +27,8 @@ public class UniStats {
 	
 	public static int logsProcessed = 0;
 	public static int linesProcessed = 0;
+	
+	public static ProgressBar progress;
 	
 	public static HashMap<Integer, String> playerNames = new HashMap<Integer, String>();
 	public static HashMap<String, String> aliases = new HashMap<String, String>();
@@ -59,13 +57,19 @@ public class UniStats {
 		logAmt = decompFolder.listFiles().length;
 		System.out.println("Dieser Prozess kann viel CPU-Leistung in Anspruch nehmen");
 		
-		ProgressBar progress = new ProgressBarBuilder().setTaskName("Bearbeite Datensätze...")
+		progress = new ProgressBarBuilder().setTaskName("Bearbeite Datensätze...")
 				.setInitialMax(logAmt)
 				.setStyle(ProgressBarStyle.ASCII)
 				.continuousUpdate()
 				.build();
 		
-		int logsProcessed = 0;
+		int cores = Runtime.getRuntime().availableProcessors();
+		
+		for(int i = 0; i < cores - 1; i++) {
+			List<File> queue = new ArrayList<File>();
+		}
+		
+		/*int logsProcessed = 0;
 		int linesProcessed = 0;
 		int appends = 1;
 		
@@ -250,7 +254,7 @@ public class UniStats {
 				continue;
 			}
 			
-			}
+			}*/
 		
 	    progress.close();
 	    
