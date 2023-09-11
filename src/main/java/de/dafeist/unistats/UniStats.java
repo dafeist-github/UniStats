@@ -225,6 +225,7 @@ public class UniStats {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
+			
 		} else {
 			writer.flush();
 			writer.close();
