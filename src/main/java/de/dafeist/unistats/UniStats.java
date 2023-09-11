@@ -29,6 +29,9 @@ public class UniStats {
 	
 	public static int logAmt = 0;
 	
+	public static int logsProcessed = 0;
+	public static int linesProcessed = 0;
+	
 	public static HashMap<Integer, String> playerNames = new HashMap<Integer, String>();
 	public static HashMap<String, String> aliases = new HashMap<String, String>();
 	
