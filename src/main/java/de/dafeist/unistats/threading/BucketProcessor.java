@@ -24,6 +24,8 @@ public class BucketProcessor {
 		  Map<String, List<File>> buckets = new HashMap<String, List<File>>();
 		  
 		  for(File file : directory.listFiles()) {
+			  
+			  try {
 			  String date = StringUtils.parseNumDateFromLog(file.getName());
 			  
 			  if(!buckets.containsKey(date)) {
@@ -35,6 +37,10 @@ public class BucketProcessor {
 				  
 			  } else {
 				  buckets.get(date).add(file);
+			  }
+			  
+			  } catch(Exception e) {
+				  //ignore
 			  }
 			  
 		  }

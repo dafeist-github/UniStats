@@ -1,7 +1,5 @@
 package de.dafeist.unistats;
 
-import de.dafeist.unistats.UniStats.Action;
-
 public class Line {
 	
 
