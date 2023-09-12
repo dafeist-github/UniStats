@@ -503,6 +503,8 @@ public class LogProcessor {
 	
 	public static void analyzeLine(Line line) {
 		
+		try {
+		
 		if(UniStats.playerNames.size() > 1) {
 		for(int i = 0; i < UniStats.playerNames.size() - 1; i++) {
 			String target = UniStats.playerNames.get(i);
@@ -675,6 +677,10 @@ public class LogProcessor {
 				}
 				
 			}
+		}
+		
+		} catch(NumberFormatException e) {
+			//ignore
 		}
 		
 	}
