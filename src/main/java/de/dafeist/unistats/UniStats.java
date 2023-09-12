@@ -8,9 +8,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import de.dafeist.unistats.threading.BucketProcessor;
+import de.dafeist.unistats.threading.ProcessWorker;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
@@ -64,10 +67,45 @@ public class UniStats {
 				.build();
 		
 		int cores = Runtime.getRuntime().availableProcessors();
+		int curr = 0;
 		
-		for(int i = 0; i < cores - 1; i++) {
-			List<File> queue = new ArrayList<File>();
+		Map<Integer, List<File>> splitted = new HashMap<Integer, List<File>>();
+		
+		Map<String, List<File>> buckets = new BucketProcessor(decompFolder).bucket();
+		
+		for(int i = 0; i < cores; i++) {
+			splitted.put(i, new ArrayList<File>());
 		}
+		
+		for(List<File> bucket : buckets.values()) {
+			
+			if(!(curr < cores)) curr = 0;
+				
+			splitted.get(curr).addAll(bucket);
+			curr++;
+			
+		}
+		List<Thread> workers = new ArrayList<Thread>();
+		
+		for(int i = 0; i < cores; i++) {
+			Thread worker = new Thread(new ProcessWorker(splitted.get(i)));
+			
+			worker.start();
+			workers.add(worker);
+		}
+		
+		for(Thread worker : workers) {
+			try {
+				worker.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		/*for(int i = 0; i < cores - 1; i++) {
+			List<File> queue = new ArrayList<File>();
+			queue.add(buckets.values()[curr]);
+		}*/
 		
 		/*int logsProcessed = 0;
 		int linesProcessed = 0;

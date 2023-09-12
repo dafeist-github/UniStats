@@ -16,12 +16,12 @@ public class BucketProcessor {
 	
 	  private File directory;
 
-	  BucketProcessor(File directory) {
+	  public BucketProcessor(File directory) {
 	    this.directory = directory;
 	  }
 	  
 	  public Map<String, List<File>> bucket() {
-		  Map<String, List<File>> buckets = new HashMap<>();
+		  Map<String, List<File>> buckets = new HashMap<String, List<File>>();
 		  
 		  for(File file : directory.listFiles()) {
 			  String date = StringUtils.parseNumDateFromLog(file.getName());

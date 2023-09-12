@@ -199,10 +199,10 @@ public class ProcessWorker implements Runnable {
 		    	e.printStackTrace();
 		    }
 			
+			UniStats.logsProcessed++;
+			UniStats.progress.step();
+			
 		}
-		
-		UniStats.logsProcessed++;
-		UniStats.progress.step();
 		
 	}
 
