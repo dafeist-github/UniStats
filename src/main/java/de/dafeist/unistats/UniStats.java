@@ -48,6 +48,8 @@ public class UniStats {
 		extractLogs();
 		
 		processLogs();
+		
+		LogProcessor.process(linesProcessed, logsProcessed);
 	}
 	
 	public static void prepAliases() {

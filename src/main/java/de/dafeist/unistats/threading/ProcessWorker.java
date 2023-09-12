@@ -24,12 +24,12 @@ public class ProcessWorker implements Runnable {
 	@Override
 	public void run() {
 		
+		File prev = null;
+		File target = null;
+		
 		for(File file : queue) {
 			
 			int appends = 1;
-			
-			File prev = null;
-			File target = null;
 			
 			boolean headerLock = false;
 			
@@ -40,6 +40,7 @@ public class ProcessWorker implements Runnable {
 			boolean onUC = false;
 			boolean prevWasUC = false;
 			
+			//Why is prev always null?
 			if(queue.size() > 1 && prev != null) {
 				target = prev;
 				
@@ -76,6 +77,8 @@ public class ProcessWorker implements Runnable {
 			
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 		    for(String line; (line = reader.readLine()) != null; ) {
+		    	
+		    	UniStats.linesProcessed++;
 		    	
 		    	//Check for username
 		    	if(line.contains("[main/INFO]: Setting user: ")) {
@@ -160,12 +163,11 @@ public class ProcessWorker implements Runnable {
 		    		writer.write(UniStats.format(line.split(" ")[0], Action.CHAT, line.substring(line.indexOf("[CHAT] ") + 7)) + " \n");
 		    	}
 		        
-		    	UniStats.linesProcessed++;
 		    }
 		    
-			
 			if(append && hasData) {
 				try {
+					
 				appends++;
 					
 				writer.flush();
