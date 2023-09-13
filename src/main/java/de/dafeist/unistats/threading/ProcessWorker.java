@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import de.dafeist.unistats.Action;
 import de.dafeist.unistats.UniStats;
@@ -14,20 +16,20 @@ import de.dafeist.unistats.parse.StringUtils;
 
 public class ProcessWorker implements Runnable {
 	
-	private final List<File> queue;
+	private final Map<String, List<File>> queue;
 	
-	public ProcessWorker(List<File> queue) {
+	public ProcessWorker(Map<String, List<File>> queue) {
 		this.queue = queue;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void run() {
 		
+		for(Entry<String, List<File>> bucket : queue.entrySet()) {
 		File prev = null;
 		File target = null;
 		
-		for(File file : queue) {
+		for(File file : bucket.getValue()) {
 			
 			int appends = 1;
 			
@@ -40,7 +42,6 @@ public class ProcessWorker implements Runnable {
 			boolean onUC = false;
 			boolean prevWasUC = false;
 			
-			//Why is prev always null?
 			if(queue.size() > 1 && prev != null) {
 				target = prev;
 				
@@ -204,6 +205,7 @@ public class ProcessWorker implements Runnable {
 			UniStats.logsProcessed++;
 			UniStats.progress.step();
 			
+		}
 		}
 		
 	}

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -40,16 +41,23 @@ public class UniStats {
 	
 	public static File instanceFolder = new File("C:\\Users\\Feist\\AppData\\Roaming\\.minecraft");
 	
+	//TODO: Irgendwas stimmt gewaltig mit dem Stats-Counting oder so nicht, viele Daten komplett unrealistisch
+	
 	public static void main(String[] args) {
 		initEnvironment();
 		
 		prepAliases();
 		
-		extractLogs();
+		//extractLogs();
 		
 		processLogs();
 		
-		LogProcessor.process(linesProcessed, logsProcessed);
+		
+		
+		playerNames.put(0, "DaFeist");
+		playerNames.put(1, "Feist2007");
+
+		//LogProcessor.process(linesProcessed, logsProcessed);
 	}
 	
 	public static void prepAliases() {
@@ -71,22 +79,23 @@ public class UniStats {
 		int cores = Runtime.getRuntime().availableProcessors();
 		int curr = 0;
 		
-		Map<Integer, List<File>> splitted = new HashMap<Integer, List<File>>();
+		Map<Integer, Map<String, List<File>>> splitted = new HashMap<Integer, Map<String, List<File>>>();
 		
 		Map<String, List<File>> buckets = new BucketProcessor(decompFolder).bucket();
 		
 		for(int i = 0; i < cores; i++) {
-			splitted.put(i, new ArrayList<File>());
+			splitted.put(i, new HashMap<String, List<File>>());
 		}
 		
-		for(List<File> bucket : buckets.values()) {
+		for(Entry<String, List<File>> bucket : buckets.entrySet()) {
 			
 			if(!(curr < cores)) curr = 0;
 				
-			splitted.get(curr).addAll(bucket);
+			splitted.get(curr).put(bucket.getKey(), bucket.getValue());
 			curr++;
 			
 		}
+		
 		List<Thread> workers = new ArrayList<Thread>();
 		
 		for(int i = 0; i < cores; i++) {
