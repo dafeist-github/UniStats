@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.dafeist.unistats.stat.CalculatedStatistic;
 import de.dafeist.unistats.stat.ConvoStatistic;
@@ -29,8 +31,16 @@ public class DataFinalizer {
 		
 		writer.write("|-------------------------------------------|  \n");
 		writer.write("|                  Names:                   |  \n");
+		
+		List<String> alr = new ArrayList<String>();
+		
 		for(int i : UniStats.playerNames.keySet()) {
-			writer.write("- " + UniStats.playerNames.get(i) + "\n");
+			String name = UniStats.playerNames.get(i);
+			
+			if(alr.contains(name)) continue;
+			
+			writer.write("- " + name + "\n");
+			alr.add(name);
 		}
 		writer.write("|------------------Player:------------------|  \n");
 		
