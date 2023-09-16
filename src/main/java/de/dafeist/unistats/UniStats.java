@@ -37,11 +37,12 @@ public class UniStats {
 	public static HashMap<Integer, String> playerNames = new HashMap<Integer, String>();
 	public static HashMap<String, String> aliases = new HashMap<String, String>();
 	
-	public static String[] targetServers = {"unicacity.de", "unicacity.de.", "tcpshield.unicacity.de", "tcpshield.unicacity.de.", "mc.unicacity.de", "mc.unicacity.de."};
+	public static String[] targetServers = {"unicacity.de", "unicacity.de.", "tcpshield.unicacity.de", "tcpshield.unicacity.de.", "mc.unicacity.de", "mc.unicacity.de.", "server.unicacity.de", "server.unicacity.de."};
 	
 	public static File instanceFolder = new File("C:\\Users\\Feist\\AppData\\Roaming\\.minecraft");
 	
 	//TODO: Irgendwas stimmt gewaltig mit dem Stats-Counting oder so nicht, viele Daten komplett unrealistisch
+	//TODO: Daten nach 2021 jucken das System irgendwie nicht
 	
 	public static void main(String[] args) {
 		initEnvironment();
