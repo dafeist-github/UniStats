@@ -533,7 +533,11 @@ public class LogProcessor {
 			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
 				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
 					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
-					between = between.replaceAll("[^0-9]", "");
+					if(trigger.ph) {
+						between = between.split(" ")[1];
+					} else {
+						between = between.replaceAll("[^0-9]", "");
+					}
 					if(!between.isBlank()) {
 					int amt = Integer.parseInt(between) * trigger.multiplier;
 					statistic.addValue(amt);

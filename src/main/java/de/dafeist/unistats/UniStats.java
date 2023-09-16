@@ -42,7 +42,8 @@ public class UniStats {
 	public static File instanceFolder = new File("C:\\Users\\Feist\\AppData\\Roaming\\.minecraft");
 	
 	//TODO: Irgendwas stimmt gewaltig mit dem Stats-Counting oder so nicht, viele Daten komplett unrealistisch
-	//TODO: Daten nach 2021 jucken das System irgendwie nicht
+	
+	//TODO: Estimated PlayTime
 	
 	public static void main(String[] args) {
 		initEnvironment();
