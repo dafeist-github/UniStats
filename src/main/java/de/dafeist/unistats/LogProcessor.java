@@ -678,12 +678,23 @@ public class LogProcessor {
 						}
 				
 				if(fine) {
+					
+					List<String> playerNamesDedupe = new ArrayList<String>();
+					
+					for(int i : UniStats.playerNames.keySet()) {
+						String name = UniStats.playerNames.get(i);
+						
+						if(playerNamesDedupe.contains(name)) continue;
+						
+						playerNamesDedupe.add(name);
+					}
+					
 					if(content.startsWith("[") && trigger.msender == MSender.ANY) {
 						//ANY
 						statistic.count();
 					}
 					
-					for(String name : UniStats.playerNames.values()) {
+					for(String name : playerNamesDedupe) {
 						if(content.startsWith("[") && content.contains("] " + name + " ")) {
 							//SELF
 							statistic.count();
@@ -692,6 +703,9 @@ public class LogProcessor {
 					}
 					
 					for(String name : UniStats.aliases.values()) {
+						
+						if(playerNamesDedupe.contains(name)) continue;
+						
 						if(content.startsWith("[") && content.contains("] " + name + " ")) {
 							//SELF
 							statistic.count();
