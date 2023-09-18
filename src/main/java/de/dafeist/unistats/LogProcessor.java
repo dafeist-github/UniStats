@@ -262,7 +262,7 @@ public class LogProcessor {
 		Statistic.statistics.add(receivebankmoney);
 			
 		Statistic gunloads = new Statistic("Waffe geladen", "Du hast x mal deine Waffe geladen", Action.LOADGUN);
-			gunloads.addPredefinedTrigger(" mit ", 1, " Kugeln beladen.", "^[Waffenschrank] Du hast deine (?<gun>.+) mit (?<amount>\\d+) Kugeln beladen. ");
+			gunloads.addPredefinedTrigger(" mit ", 1, " Kugeln beladen.", "^\\[Waffenschrank\\] Du hast deine (?<gun>.+) mit (?<amount>\\d+) Kugeln beladen. ");
 		Statistic.statistics.add(gunloads);
 		
 		Statistic withdraws = new Statistic("Bankabhebungen", "Du hast x mal Geld von der Bank abgehoben", Action.WITHDRAW);
@@ -387,11 +387,11 @@ public class LogProcessor {
 		RoleplayStatistic.statistics.add(nickenany);
 		
 		RoleplayStatistic ansehen = new RoleplayStatistic("Personen angesehen", "Du hast x mal jemanden angesehen", Action.ANSEHEN);
-			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
-			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
-			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
-			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " zu "}));
-			ansehen.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.SELF, new String[]{" sieht ", " an "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.SELF, new String[]{" schaut ", " an "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.SELF, new String[]{" sieht ", " zu "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.SELF, new String[]{" schaut ", " zu "}));
+			ansehen.addTrigger(new RoleplayTrigger(METype.SELF, new String[]{" sieht ", " an "}));
 		RoleplayStatistic.statistics.add(ansehen);
 		
 		RoleplayStatistic ansehenother = new RoleplayStatistic("Angesehen worden", "Du wurdest x mal angesehen", Action.ANSEHENOTHER);
@@ -403,11 +403,11 @@ public class LogProcessor {
 		RoleplayStatistic.statistics.add(ansehenother);
 
 		RoleplayStatistic ansehenany = new RoleplayStatistic("Ansehen gesehen", "Du hast x mal jemanden jemanden ansehen gesehen", Action.ANSEHENANY);
-			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
-			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " an "}));
-			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " zu "}));
-			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" schaut ", " zu "}));
-			ansehenany.addTrigger(new RoleplayTrigger(METype.OTHER, new String[]{" sieht ", " an "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.ANY, new String[]{" sieht ", " an "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.ANY, new String[]{" schaut ", " an "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.ANY, new String[]{" sieht ", " zu "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.ANY, new String[]{" schaut ", " zu "}));
+			ansehenany.addTrigger(new RoleplayTrigger(METype.ANY, new String[]{" sieht ", " an "}));
 		RoleplayStatistic.statistics.add(ansehenany);
 		
 		RoleplayStatistic grin = new RoleplayStatistic("Gegrinst", "Du hast x mal gegrinst", Action.GRINSEN);
