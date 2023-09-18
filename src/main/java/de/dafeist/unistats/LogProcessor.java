@@ -257,11 +257,11 @@ public class LogProcessor {
 		Statistic.statistics.add(transferbankmoney);*/
 		
 		Statistic receivebankmoney = new Statistic("Geld durch Überweisungen bekommen", "Du hast x mal Geld durch Überweisungen bekommen", Action.RECEIVEBANKMONEY);
-			receivebankmoney.addPredefinedTrigger(" hat dir ", 1, "$ überwiesen!");
+			receivebankmoney.addPredefinedTrigger(" hat dir ", 1, "$ überwiesen!", "^(?<name>.+) hat dir (?<amount>\\d+)\\$ überwiesen! $");
 		Statistic.statistics.add(receivebankmoney);
 			
 		Statistic gunloads = new Statistic("Waffe geladen", "Du hast x mal deine Waffe geladen", Action.LOADGUN);
-			gunloads.addPredefinedTrigger(" mit ", 1, " Kugeln beladen.");
+			gunloads.addPredefinedTrigger(" mit ", 1, " Kugeln beladen.", "^[Waffenschrank] Du hast deine (?<gun>.+) mit (?<amount>\\d+) Kugeln beladen. ");
 		Statistic.statistics.add(gunloads);
 		
 		Statistic withdraws = new Statistic("Bankabhebungen", "Du hast x mal Geld von der Bank abgehoben", Action.WITHDRAW);
