@@ -244,7 +244,7 @@ public class LogProcessor {
 		Statistic.statistics.add(revivesseen);
 		
 		Statistic pays = new Statistic("Bargeld gezahlt (Spieler)", "Du hast x mal Bargeld an andere Spieler gezahlt", Action.PAYMONEY);
-			pays.addPredefinedTrigger("Du hast ", 1, "$ gegeben!", "Du hast ^(?<name>.+) (?<amount>\\d+)\\$ gegeben!  $");
+			pays.addPredefinedTrigger("Du hast ", 1, "$ gegeben!", "^Du hast (?<name>.+) (?<amount>\\d+)\\$ gegeben! $");
 		Statistic.statistics.add(pays);
 		
 		Statistic receivemoney = new Statistic("Bargeld bekommen (Spieler)", "Du hast x mal Bargeld von anderen Spielern bekommen", Action.RECEIVEMONEY);
@@ -542,6 +542,7 @@ public class LogProcessor {
 					if(trigger.regex != null && !trigger.regex.equals("")) {
 						Pattern pattern = Pattern.compile(trigger.regex);
 						Matcher matcher = pattern.matcher(between);
+						System.out.println("Heh: " + between);
 					       if(!matcher.matches()) {
 					            continue;
 					        }
