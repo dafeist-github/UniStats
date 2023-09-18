@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -498,10 +499,6 @@ public class LogProcessor {
 			messageself.add(screamself);
 		CalculatedStatistic.statistics.add(messageself);
 
-		
-		//TODO: Überweisungen
-		
-		//Vielleicht machen Umlaute Probleme?
 	}
 	
 	public static void analyzeLine(Line line) {
@@ -542,7 +539,6 @@ public class LogProcessor {
 					if(trigger.regex != null && !trigger.regex.equals("")) {
 						Pattern pattern = Pattern.compile(trigger.regex);
 						Matcher matcher = pattern.matcher(between);
-						System.out.println("Heh: " + between);
 					       if(!matcher.matches()) {
 					            continue;
 					        }
@@ -619,7 +615,17 @@ public class LogProcessor {
 							statistic.count();
 					}
 					
-					for(String name : UniStats.playerNames.values()) {
+					List<String> playerNamesDedupe = new ArrayList<String>();
+					
+					for(int i : UniStats.playerNames.keySet()) {
+						String name = UniStats.playerNames.get(i);
+						
+						if(playerNamesDedupe.contains(name)) continue;
+						
+						playerNamesDedupe.add(name);
+					}
+					
+					for(String name : playerNamesDedupe) {
 						
 						if(content.startsWith("* " + name) && trigger.type == METype.SELF) {
 							//SELF
@@ -633,6 +639,8 @@ public class LogProcessor {
 					}
 					
 					for(String name : UniStats.aliases.values()) {
+						
+						if(playerNamesDedupe.contains(name)) continue;
 						
 						if(content.startsWith("* " + name) && trigger.type == METype.SELF) {
 							//SELF
