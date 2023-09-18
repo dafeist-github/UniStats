@@ -6,7 +6,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import de.dafeist.unistats.parse.StringUtils;
 import de.dafeist.unistats.stat.CalculatedStatistic;
 import de.dafeist.unistats.stat.ConvoStatistic;
 import de.dafeist.unistats.stat.RoleplayStatistic;
@@ -241,11 +244,11 @@ public class LogProcessor {
 		Statistic.statistics.add(revivesseen);
 		
 		Statistic pays = new Statistic("Bargeld gezahlt (Spieler)", "Du hast x mal Bargeld an andere Spieler gezahlt", Action.PAYMONEY);
-			pays.addPredefinedTrigger("Du hast ", 1, "$ gegeben!", true);
+			pays.addPredefinedTrigger("Du hast ", 1, "$ gegeben!", "Du hast ^(?<name>.+) (?<amount>\\d+)\\$ gegeben!  $");
 		Statistic.statistics.add(pays);
 		
 		Statistic receivemoney = new Statistic("Bargeld bekommen (Spieler)", "Du hast x mal Bargeld von anderen Spielern bekommen", Action.RECEIVEMONEY);
-			receivemoney.addPredefinedTrigger(" hat dir ", 1, "$ gegeben!");
+			receivemoney.addPredefinedTrigger(" hat dir ", 1, "$ gegeben!", "^(?<name>.+) hat dir (?<amount>\\d+)\\$ gegeben! $");
 		Statistic.statistics.add(receivemoney);
 		
 		/*Statistic transferbankmoney = new Statistic("Geld überwiesen", "Du hast x mal Geld an einen anderen Spieler überwiesen", Action.TRANSFERBANKMONEY);
@@ -532,9 +535,17 @@ public class LogProcessor {
 			if(!statistic.predefinedTriggers.isEmpty()) {
 			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
 				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
-					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
-					if(trigger.ph) {
-						between = between.split(" ")[1];
+					String between = line.getContent();//.substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
+					
+					System.out.println(between);
+					
+					if(trigger.regex != null && !trigger.regex.equals("")) {
+						Pattern pattern = Pattern.compile(trigger.regex);
+						Matcher matcher = pattern.matcher(between);
+					       if(!matcher.matches()) {
+					            continue;
+					        }
+						between = matcher.group("amount");
 					} else {
 						between = between.replaceAll("[^0-9]", "");
 					}

@@ -38,8 +38,8 @@ public class Statistic {
 		if(!predefinedTriggers.contains(pt)) predefinedTriggers.add(pt);
 	}
 	
-	public void addPredefinedTrigger(String before, int multiplier, String after, boolean ph) {
-		PredefinedTrigger pt = new PredefinedTrigger(before, multiplier, after, ph);
+	public void addPredefinedTrigger(String before, int multiplier, String after, String regex) {
+		PredefinedTrigger pt = new PredefinedTrigger(before, multiplier, after, regex);
 		if(!predefinedTriggers.contains(pt)) predefinedTriggers.add(pt);
 	}
 	
