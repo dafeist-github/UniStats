@@ -213,7 +213,7 @@ public class LogProcessor {
 		
 		//MSG maybe wrong
 		Statistic enabletelephone = new Statistic("Telefon eingeschaltet", "Du hast x mal dein Telefon eingeschaltet", Action.ENABLETELEPHONE);
-			enabletelephone.addTrigger("Du hast dein Telefon eingeschalt");
+			enabletelephone.addTrigger("Du hast dein Telefon eingeschaltet");
 		Statistic.statistics.add(enabletelephone);
 		
 		Statistic financesshown = new Statistic("Finanzen gezeigt", "Du hast x mal deine Finanzen gezeigt", Action.SHOWFINANCES);
@@ -287,7 +287,7 @@ public class LogProcessor {
 		
 		//Timebased
 		TimebasedStatistic jailtime = new TimebasedStatistic("Im Gefängnis gelandet", "Du warst x mal im Gefängnis", Action.JAILED, Action.UNJAILED);
-			jailtime.addPredefinedTrigger("Du bist nun für ", 60, "Minuten im Gefängnis.");
+			jailtime.addPredefinedTrigger("Du bist nun für ", 60, "Minuten im Gefängnis.", "^\\[Gefängnis\\] Du bist nun für (?<amount>\\d+) Minuten im Gefängnis. $");
 		TimebasedStatistic.statistics.add(jailtime);
 		
 		TimebasedStatistic afks = new TimebasedStatistic("AFK-Zeit", "Du bist x mal AFK gegangen", Action.AFK, Action.NOAFK);
@@ -534,8 +534,6 @@ public class LogProcessor {
 				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
 					String between = line.getContent();//.substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
 					
-					System.out.println(between);
-					
 					if(trigger.regex != null && !trigger.regex.equals("")) {
 						Pattern pattern = Pattern.compile(trigger.regex);
 						Matcher matcher = pattern.matcher(between);
@@ -582,8 +580,20 @@ public class LogProcessor {
 			
 			for(PredefinedTrigger trigger : statistic.predefinedTriggers) {
 				if(line.getContent().contains(trigger.before) && line.getContent().contains(trigger.after)) {
-					String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
-					int amt = Integer.parseInt(between.replace(" ", "")) * trigger.multiplier;
+					String between = line.getContent();
+					
+					if(trigger.regex != null && !trigger.regex.equals("")) {
+						Pattern pattern = Pattern.compile(trigger.regex);
+						Matcher matcher = pattern.matcher(between);
+					       if(!matcher.matches()) {
+					            continue;
+					        }
+						between = matcher.group("amount");
+					} else {
+						between = between.replaceAll("[^0-9]", "");
+					}
+					//String between = line.getContent().substring(line.getContent().indexOf(trigger.before) + trigger.before.length() + 1, line.getContent().indexOf(trigger.after));
+					int amt = Integer.parseInt(between) * trigger.multiplier;
 					statistic.add(amt);
 				}
 			}

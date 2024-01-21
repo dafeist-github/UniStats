@@ -20,7 +20,8 @@ import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 
 public class UniStats {
-	
+
+	public static File jarFolder;
 	public static File dataFolder;
 	public static File decompFolder;
 	public static File logFolder;
@@ -41,25 +42,29 @@ public class UniStats {
 	
 	public static File instanceFolder = new File("C:\\Users\\Feist\\AppData\\Roaming\\.minecraft");
 	
-	//TODO: Irgendwas stimmt gewaltig mit dem Stats-Counting oder so nicht, viele Daten komplett unrealistisch
-	
 	//TODO: Estimated PlayTime
 	
 	public static void main(String[] args) {
+
+		try {
+			instanceFolder = new File(args[0]);
+			System.out.println("Instanz zu " + instanceFolder.getAbsolutePath() + " gesetzt");
+
+		} catch(Exception e) {
+			System.out.println("Abbruch! Fehlerhafter Dateipfad");
+
+			return;
+		}
+
 		initEnvironment();
 		
 		prepAliases();
 		
-		//extractLogs();
+		extractLogs();
 		
 		processLogs();
 		
-		
-		
-		playerNames.put(0, "DaFeist");
-		playerNames.put(1, "Feist2007");
-
-		//LogProcessor.process(linesProcessed, logsProcessed);
+		LogProcessor.process(linesProcessed, logsProcessed);
 	}
 	
 	public static void prepAliases() {
@@ -364,7 +369,8 @@ public class UniStats {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-        
+
+		jarFolder = new File(jarPath);
         dataFolder = new File(jarPath + "\\unidata");
         decompFolder = new File(dataFolder.getPath() + "\\decomp");
         logFolder = new File(dataFolder.getPath() + "\\logprocess");

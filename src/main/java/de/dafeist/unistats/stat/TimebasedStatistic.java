@@ -49,8 +49,8 @@ public class TimebasedStatistic {
 		if(!endTriggers.contains(trigger)) endTriggers.add(trigger);
 	}
 	
-	public void addPredefinedTrigger(String before, int multiplier, String after) {
-		PredefinedTrigger pt = new PredefinedTrigger(before, multiplier, after);
+	public void addPredefinedTrigger(String before, int multiplier, String after, String regex) {
+		PredefinedTrigger pt = new PredefinedTrigger(before, multiplier, after, regex);
 		if(!predefinedTriggers.contains(pt)) predefinedTriggers.add(pt);
 	}
 	

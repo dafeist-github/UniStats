@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +126,8 @@ public class DataFinalizer {
 		
 		UniStats.compressGzip(file, compressed);
 
-		
+		System.out.println("Fertig! Die Datei data.txt im Ordner 'unidata -> target' zeigt alle deine Statistiken");
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
