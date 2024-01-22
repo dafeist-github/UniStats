@@ -25,4 +25,4 @@ Es werden zu keinem Zeitpunkt Daten an irgendwelche Dritt-Server übermittelt
 
 Discord: https://discord.gg/UE34FkCSFA | Gerne auch Fragen und Probleme^^
 
-Instagram: https://instagram.com/dafeist_
+Instagram: [https://www.instagram.com/dafeist_](https://www.instagram.com/dafeist_)
