@@ -9,7 +9,7 @@ Es muss Java auf dem PC installiert sein
 
 -Zuerst unter "Releases" die Jar herunterladen
 -Im Ordner, wo sie heruntergeladen wurde, eine cmd öffnen!
-Dazu einfach hier klicken und "cmd" eingeben. [](https://github.com/dafeist-github/UniStats/assets/56165444/2cb40fc5-e0cd-4f13-876d-e46fd3f85b8e)
+Dazu einfach hier[siehe Screenshot: https://imgur.com/a/onyL2fX] klicken und "cmd" eingeben. 
 
 Nun einfach "java -jar UniStats.jar <Dateipfad>" eingeben. Der Dateipfad ist der Pfad zum .minecraft Ordner!
 
@@ -24,4 +24,5 @@ Es werden zu keinem Zeitpunkt Daten an irgendwelche Dritt-Server übermittelt
 ~DaFeist
 
 Discord: https://discord.gg/UE34FkCSFA | Gerne auch Fragen und Probleme^^
+
 Instagram: https://instagram.com/dafeist_
